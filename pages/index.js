@@ -21,7 +21,7 @@ const Home = ({ products, bannerData }) => (
 
     <div className="products-container">
       {/* question mark makes sure products exist before executing .map */}
-      {products?.map((product) => product.name)}
+      {products?.map((product) => <Product key={product._id} product={product}/>)}
     </div>
 
     <FooterBanner />
