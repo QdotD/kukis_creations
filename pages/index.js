@@ -10,7 +10,7 @@ import { Product, FooterBanner, HeroBanner } from '../components';
 
 const Home = ({ products, bannerData }) => (
   <div>
-    <HeroBanner />
+    <HeroBanner heroBanner={ bannerData.length && bannerData[0] }/>
 
     {console.log(bannerData)}
 
