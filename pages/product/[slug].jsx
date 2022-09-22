@@ -30,6 +30,7 @@ const ProductDetails = ({ products, product }) => {
           <div className="small-images-container">
               {image?.map((item, i) => (
                 <img 
+                  key={ Math.random().toString(36).substr(2, 9) }
                   src={urlFor(item)}
                   className={i === index ? 'small-image selected-image' : 'small-image'}
                   onMouseEnter={() => setIndex(i)}
@@ -56,13 +57,13 @@ const ProductDetails = ({ products, product }) => {
             <h3>Quantity: </h3>
             <p className="quantity-desc">
               <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
-              <span className="num" onClick="">{qty}</span>
+              <span className="num" onClick={null}>{qty}</span>
               <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
             </p>
           </div>
           <div className="buttons">
             <button type="button" className="add-to-cart" onClick={() => onAdd(product, qty)}>Add to Cart</button>
-            <button type="button" className="buy-now" onClick="">Buy Now</button>
+            <button type="button" className="buy-now" onClick={null}>Buy Now</button>
           </div>
         </div>
       </div>
@@ -72,7 +73,7 @@ const ProductDetails = ({ products, product }) => {
         <div className="marquee">{/* marquee is a list of scrolling divs/scrolling parts*/}
           <div className="maylike-products-container track">
             {products.map((item) => (
-              <Product key={item.id} product={item} />
+              <Product key={ Math.random().toString(36).substr(2, 9) } product={item} />
             ))}
           </div>
         </div>

@@ -9,7 +9,8 @@ import { urlFor } from '../lib/client';
 
 const Cart = () => {
   const cartRef = useRef();
-  const { totalPrice, totalQuantities, cartItems, setShowCart } = useStateContext();
+  // state context
+  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity } = useStateContext();
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
@@ -35,7 +36,7 @@ const Cart = () => {
 
         <div className="product-container">
           {cartItems.length >= 1 && cartItems.map((item, index) => (
-            <div className="product" key={item._id}>
+            <div className="product" key={ Math.random().toString(36).substr(2, 9) }>
               <img src={urlFor(item?.image[0])} className="cart-product-image" />
               <div className="item-desc">
                 <div className="flex top">
@@ -45,12 +46,12 @@ const Cart = () => {
                 <div className="flex bottom">
                   <div>
                     <p className="quantity-desc">
-                      <span className="minus" onClick=""><AiOutlineMinus /></span>
-                      <span className="num" onClick="">0</span>
-                      <span className="plus" onClick=""><AiOutlinePlus /></span>
+                      <span className="minus" onClick={() => toggleCartItemQuantity(item._id, 'dec')}><AiOutlineMinus /></span>
+                      <span className="num" onClick={null}>{item.quantity}</span>
+                      <span className="plus" onClick={() => toggleCartItemQuantity(item._id, 'inc')}><AiOutlinePlus /></span>
                     </p>
                   </div>
-                  <button type="button" className="remove-item" onClick="">
+                  <button type="button" className="remove-item" onClick={null}>
                     <TiDeleteOutline />
                   </button>
                 </div>
@@ -58,7 +59,19 @@ const Cart = () => {
             </div>
           ))}
         </div>
-
+        {cartItems.length >= 1 && (
+          <div className="cart-bottom">
+            <div className="total">
+              <h3>Subtotal:</h3>
+              <h3>${totalPrice}</h3>
+            </div>
+            <div className='btn-container'>
+              <button type="button" className='btn' onClick={null}>
+                Pay with Stripe
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
