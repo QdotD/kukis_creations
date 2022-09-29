@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import { TiArrowForwardOutline } from 'react-icons/ti';
 
 const Context = createContext();
 
@@ -14,6 +15,7 @@ export const StateContext = ({ children }) => {
     //normal variables
     let foundProduct;
     let index;
+    let timeAddedToCart;
 
     // state functions
     const onAdd = (product, quantity) => {
@@ -26,18 +28,26 @@ export const StateContext = ({ children }) => {
         // run if item already exists in the cart
         if (checkProductInCart) {
             // update # of items in cart
-            const updatedCartItems = cartItems.map((cartProuct) => {
+            const updatedCartItems = cartItems.map((cartProduct) => {
+                console.log('item already exists: ', cartProduct);
+                // cartProduct._time
+
                 if (cartProduct._id === product._id) return {
                     ...cartProduct,
-                    quantity: cartProduct.quantity + quantity
+                    quantity: cartProduct.quantity + quantity,
+                    timeAddedToCart: timeAddedToCart ? timeAddedToCart : Date.now()
                 }
             });
 
             setCartItems(updatedCartItems);
             // else run this if item doesn't already exist in cart
         } else {
+            console.log('item doesnt already exist: ', product);
             product.quantity = quantity;
-
+            if(!product.timeAddedToCart) {
+                product.timeAddedToCart = Date.now();
+            } 
+                
             setCartItems([...cartItems, { ...product }]);
         }
         // success toast message
@@ -48,16 +58,25 @@ export const StateContext = ({ children }) => {
     const toggleCartItemQuantity = (id, value) => {
         foundProduct = cartItems.find((item) => item._id === id);
         index = cartItems.findIndex((product) => product._id === id);
+        // do not use "splice", this mutates the state (big no no in react), use filter instead
+        // keep all of the items except the one we are changing (i.e filtering out)
+        const newCartItems = cartItems.filter((item) => item._id !== id);
 
         if (value === 'inc') {
-            let newCartItems = [...cartItems, { ...foundProduct, quantity: foundProduct.quantity + 1}]
-            setCartItems(newCartItems);
+            let sortedCartItems = [...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1}];
+            console.log("before sort: ", sortedCartItems);
+            sortedCartItems.sort((a, b) => (a.timeAddedToCart - b.timeAddedToCart));
+            console.log("after sort: ", sortedCartItems);
+            // console.log(sortedCartItems);
+            // console.log(sortedCartItems[0]);
+            // console.log(sortedCartItems[0]._createdAt);
+            // console.log(sortedCartItems[1]._createdAt);
+            setCartItems(sortedCartItems);
             setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
             setTotalQuantities(prevTotalQuantities => prevTotalQuantities + 1);
         } else if (value === 'dec') {
             if(foundProduct.quantity > 1){
-                let newCartItems = [...cartItems, { ...foundProduct, quantity: foundProduct.quantity - 1}]
-                setCartItems(newCartItems);
+                setCartItems([...newCartItems, { ...foundProduct, quantity: foundProduct.quantity - 1} ]);
                 setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
                 setTotalQuantities(prevTotalQuantities => prevTotalQuantities - 1);
             }
