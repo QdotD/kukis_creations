@@ -32,6 +32,7 @@ export const StateContext = ({ children }) => {
                 console.log('item already exists: ', cartProduct);
                 // cartProduct._time
 
+                // appends a timestamp to the cartProduct object
                 if (cartProduct._id === product._id) return {
                     ...cartProduct,
                     quantity: cartProduct.quantity + quantity,
@@ -44,10 +45,10 @@ export const StateContext = ({ children }) => {
         } else {
             console.log('item doesnt already exist: ', product);
             product.quantity = quantity;
-            if(!product.timeAddedToCart) {
+            if (!product.timeAddedToCart) {
                 product.timeAddedToCart = Date.now();
-            } 
-                
+            }
+
             setCartItems([...cartItems, { ...product }]);
         }
         // success toast message
@@ -63,20 +64,22 @@ export const StateContext = ({ children }) => {
         const newCartItems = cartItems.filter((item) => item._id !== id);
 
         if (value === 'inc') {
-            let sortedCartItems = [...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1}];
-            console.log("before sort: ", sortedCartItems);
-            sortedCartItems.sort((a, b) => (a.timeAddedToCart - b.timeAddedToCart));
-            console.log("after sort: ", sortedCartItems);
-            // console.log(sortedCartItems);
-            // console.log(sortedCartItems[0]);
-            // console.log(sortedCartItems[0]._createdAt);
-            // console.log(sortedCartItems[1]._createdAt);
-            setCartItems(sortedCartItems);
+            let sortedCartItemsInc = [...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1 }];
+            // console.log("before sort inc: ", sortedCartItemsInc);
+            sortedCartItemsInc.sort((a, b) => (a.timeAddedToCart - b.timeAddedToCart));
+            // console.log("after sort inc: ", sortedCartItemsInc);
+
+            setCartItems(sortedCartItemsInc);
             setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
             setTotalQuantities(prevTotalQuantities => prevTotalQuantities + 1);
         } else if (value === 'dec') {
-            if(foundProduct.quantity > 1){
-                setCartItems([...newCartItems, { ...foundProduct, quantity: foundProduct.quantity - 1} ]);
+            if (foundProduct.quantity > 1) {
+                let sortedCartItemsDec = [...newCartItems, { ...foundProduct, quantity: foundProduct.quantity - 1 }];
+                // console.log("before sort dec: ", sortedCartItemsDec);
+                sortedCartItemsDec.sort((a, b) => (a.timeAddedToCart - b.timeAddedToCart));
+                // console.log("after sort dec: ", sortedCartItemsDec);
+                
+                setCartItems(sortedCartItemsDec);
                 setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
                 setTotalQuantities(prevTotalQuantities => prevTotalQuantities - 1);
             }
