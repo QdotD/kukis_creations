@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { TiArrowForwardOutline } from 'react-icons/ti';
+//component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
+import NoSsr from '../components/NoSsr';
 
 const Context = createContext();
 

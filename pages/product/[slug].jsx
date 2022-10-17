@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 //import icons
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
+//component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
+import NoSsr from '../../components/NoSsr';
 
 //import stuff from sanity client
 import { client, urlFor } from '../../lib/client';
@@ -30,7 +32,7 @@ const ProductDetails = ({ products, product }) => {
           <div className="small-images-container">
               {image?.map((item, i) => (
                 <img 
-                  key={ Math.random().toString(36).substr(2, 9) }
+                  key={i}
                   src={urlFor(item)}
                   className={i === index ? 'small-image selected-image' : 'small-image'}
                   onMouseEnter={() => setIndex(i)}
@@ -42,11 +44,13 @@ const ProductDetails = ({ products, product }) => {
           <h1>{name}</h1>
           <div className="reviews">
             <div>
+              <NoSsr>
               <AiFillStar />
               <AiFillStar />
               <AiFillStar />
               <AiFillStar />
               <AiOutlineStar />
+              </NoSsr>
             </div>
             <p>(20)</p>
           </div>
@@ -56,9 +60,9 @@ const ProductDetails = ({ products, product }) => {
           <div className="quantity">
             <h3>Quantity: </h3>
             <p className="quantity-desc">
-              <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
+              <span className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></span>
               <span className="num" onClick={null}>{qty}</span>
-              <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
+              <span className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></span>
             </p>
           </div>
           <div className="buttons">
@@ -73,7 +77,7 @@ const ProductDetails = ({ products, product }) => {
         <div className="marquee">{/* marquee is a list of scrolling divs/scrolling parts*/}
           <div className="maylike-products-container track">
             {products.map((item) => (
-              <Product key={ Math.random().toString(36).substr(2, 9) } product={item} />
+              <Product key={item._id} product={item} />
             ))}
           </div>
         </div>

@@ -2,21 +2,48 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
+//component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
+import NoSsr from './NoSsr';
+
 import toast from 'react-hot-toast';
 
 import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
+import getStripe from '../lib/getStripe';
 
 const Cart = () => {
   const cartRef = useRef();
   // state context
   const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity, onRemove } = useStateContext();
 
+  // function sends product data from cart to stripe
+  const handleCheckout = async () => {
+    const stripe = await getStripe();
+
+    const response = await fetch('/api/stripe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cartItems),
+    });
+
+    if(response.statusCode === 500) return;
+
+    const data = await response.json();
+
+    toast.loading('Redirecting...');
+
+    stripe.redirectToCheckout({ sessionId: data.id })
+  }
+
   return (
     <div className="cart-wrapper" ref={cartRef}>
       <div className="cart-container">
         <button type="button" className="cart-heading" onClick={() => setShowCart(false)}>
+          <NoSsr>
           <AiOutlineLeft />
+          </NoSsr>
           <span className="heading">Your Cart</span>
           <span className="cart-num-items">({totalQuantities} items)</span>
         </button>
@@ -24,7 +51,9 @@ const Cart = () => {
         {/* run if cart is empty */}
         {cartItems.length < 1 && (
           <div className="empty-cart">
+            <NoSsr>
             <AiOutlineShopping size={150} />
+            </NoSsr>
             <h3>Nothing in cart</h3>
             <Link href="/">
               <button type="button" onClick={() => setShowCart(false)} className="btn">
@@ -46,13 +75,15 @@ const Cart = () => {
                 <div className="flex bottom">
                   <div>
                     <p className="quantity-desc">
-                      <span className="minus" onClick={() => toggleCartItemQuantity(item._id, 'dec')}><AiOutlineMinus /></span>
+                      <span className="minus" onClick={() => toggleCartItemQuantity(item._id, 'dec')}><NoSsr><AiOutlineMinus /></NoSsr></span>
                       <span className="num" onClick={null}>{item.quantity}</span>
-                      <span className="plus" onClick={() => toggleCartItemQuantity(item._id, 'inc')}><AiOutlinePlus /></span>
+                      <span className="plus" onClick={() => toggleCartItemQuantity(item._id, 'inc')}><NoSsr><AiOutlinePlus /></NoSsr></span>
                     </p>
                   </div>
                   <button type="button" className="remove-item" onClick={()=> onRemove(item)}>
+                    <NoSsr>
                     <TiDeleteOutline />
+                    </NoSsr>
                   </button>
                 </div>
               </div>
@@ -66,7 +97,7 @@ const Cart = () => {
               <h3>${totalPrice}</h3>
             </div>
             <div className='btn-container'>
-              <button type="button" className='btn' onClick={null}>
+              <button type="button" className='btn' onClick={handleCheckout}>
                 Pay with Stripe
               </button>
             </div>

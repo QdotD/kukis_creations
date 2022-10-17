@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 //simple shopping icon
 import { AiOutlineShopping } from 'react-icons/ai';
+//component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
+import NoSsr from './NoSsr';
 
 //import cart component
 import { Cart } from './';
@@ -19,7 +21,9 @@ const Navbar = () => {
         <Link href="/">Cool Headphones</Link>
       </p>
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
-        <AiOutlineShopping />
+        <NoSsr>
+          <AiOutlineShopping />
+        </NoSsr>
         <span className="cart-item-qty">{totalQuantities}</span>
       </button>
 
