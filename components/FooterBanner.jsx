@@ -3,10 +3,16 @@ import Link from 'next/link';
 
 import { urlFor } from '../lib/client';
 
+//import global state and functions
+import { useStateContext } from '../context/StateContext';
+
 const FooterBanner = ({ footerBanner: {
   discount, largeText1, largeText2, saleTime,
   smallText, midText, desc, product, buttonText, image }
 }) => {
+
+  const { setQty } = useStateContext();
+
   return (
     <div className="footer-banner-container">
       <div className="banner-desc">
@@ -21,7 +27,7 @@ const FooterBanner = ({ footerBanner: {
           <h3>{midText}</h3>
           <p>{desc}</p>
           <Link href={`/product/${product}`}>
-            <button type="button">{buttonText}</button>
+            <button type="button" onClick={() => setQty(1)}>{buttonText}</button>
           </Link>
         </div>
 

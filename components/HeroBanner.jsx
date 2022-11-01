@@ -3,7 +3,12 @@ import Link from 'next/link';
 
 import { urlFor } from '../lib/client';
 
+//import global state and functions
+import { useStateContext } from '../context/StateContext';
+
 const HeroBanner = ({ heroBanner }) => {
+  const { setQty } = useStateContext();
+
   return (
     <div className="hero-banner-container">
       <div>
@@ -14,7 +19,7 @@ const HeroBanner = ({ heroBanner }) => {
 
         <div>
           <Link href={`/product/${heroBanner.product}`}>
-            <button type="button">{heroBanner.buttonText}</button>
+            <button type="button" onClick={() => setQty(1)}>{heroBanner.buttonText}</button>
           </Link>
           <div className="desc">
             <h5>Description</h5>

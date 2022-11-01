@@ -3,7 +3,12 @@ import Link from 'next/link';
 
 import { urlFor } from '../lib/client';
 
+//import global state and functions
+import { useStateContext } from '../context/StateContext';
+
 const Product = ({ product: { image, name, slug, price } }) => {
+  const { setQty } = useStateContext();
+
   return (
     <div>
       <Link href={`/product/${slug.current}`}>
@@ -13,7 +18,8 @@ const Product = ({ product: { image, name, slug, price } }) => {
             width={250}
             height={250}
             className="product-image"
-            alt="" />
+            onClick={() => setQty(1)}
+            alt="product image" />
             <p className="product-name">{name}</p>
             <p className="product-price">${price}</p>
         </div>
