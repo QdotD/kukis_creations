@@ -286,6 +286,13 @@ text-align: end;
   
 }
 
+.outside-cart-container{
+  height: 100vh;
+  width: calc(100vw - 600px);
+  float: left;
+  position: relative;
+}
+
 .footer-container{
   color: #324d67;
   text-align: center;
