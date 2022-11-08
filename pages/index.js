@@ -30,7 +30,7 @@ const Home = ({ products, bannerData }) => (
 
 
 
-// async function that allows us to fetch data from APIs ("Next.js with pre-render this page on each request using the data returned by getServerSideProps")
+// async function that allows us to fetch data from APIs ("Next.js will pre-render this page on each request using the data returned by getServerSideProps")
 export const getServerSideProps = async () => {
   // lets grab all our products from the sanity dashboard
   const query  = '*[_type == "product"]';
