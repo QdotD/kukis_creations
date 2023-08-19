@@ -6,13 +6,11 @@ import NoSsr from './NoSsr';
 const Footer = () => {
   return (
     <div className="footer-container">
-      <p>2022 Cool Headphones All rights reserved</p>
       <p className="icons">
         <NoSsr>
         <AiFillInstagram />
         <AiOutlineTwitter />
         </NoSsr>
-          
       </p>
     </div>
   )

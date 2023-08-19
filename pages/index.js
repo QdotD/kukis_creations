@@ -6,25 +6,30 @@ import React from 'react'
 import { client } from '../lib/client';
 
 //imports react components to the project
-import { Product, FooterBanner, HeroBanner } from '../components';
+import { Product, HeroBanner, CustomerReviewBanner } from '../components';
+import Carousel from '../components/Carousel';
 
 const Home = ({ products, bannerData }) => (
   <div>
-    <HeroBanner heroBanner={ bannerData.length && bannerData[0] }/>
+    <Carousel />
+    {/* <HeroBanner heroBanner={ bannerData.length && bannerData[0] }/> */}
 
     {console.log(bannerData)}
 
-    <div className="products-heading">
-      <h2>Best Selling Products</h2>
-      <p>Many types of speakers</p>
+    <div  className='products-main-container'>
+      <div className="products-heading">
+        <div className="horizontal-bar"></div> {/* Left horizontal bar */}
+        <h2>Best Selling Products</h2>
+        <div className="horizontal-bar"></div> {/* Right horizontal bar */}
+      </div>
+
+      <div className="products-container">
+        {/* question mark makes sure products exist before executing .map */}
+        {products?.map((product) => <Product key={product._id} product={product}/>)}
+      </div>
     </div>
 
-    <div className="products-container">
-      {/* question mark makes sure products exist before executing .map */}
-      {products?.map((product) => <Product key={product._id} product={product}/>)}
-    </div>
-
-    <FooterBanner footerBanner={bannerData && bannerData[0]} />
+    <CustomerReviewBanner />
   </div>
 );
 
