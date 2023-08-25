@@ -23,11 +23,11 @@ const ProductDetails = ({ products, product }) => {
   // lets us use these functions here in our code
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
-  const handleBuyNow = () => {
-    onAdd(product, qty);
+  // const handleBuyNow = () => {
+  //   onAdd(product, qty);
 
-    setShowCart(true);
-  }
+  //   setShowCart(true);
+  // }
 
   const imageRefs = useRef([]);
 
@@ -168,7 +168,7 @@ const ProductDetails = ({ products, product }) => {
 // allows us to use getStaticProps
 export const getStaticPaths = async () => {
   // give me the data for all the procuts
-  const query = `*[_type == "product"] {
+  const query = `*[_type == "products"] {
     // but dont return all of it just give me the current slug property
     slug {
       current
