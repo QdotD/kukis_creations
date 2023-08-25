@@ -405,8 +405,8 @@ span.text-red {
 }
 
 .slick-dots {
-  z-index: 9999;
-  bottom: 70px;
+  z-index: 1;
+  bottom: 50px;
   font-size: 40px;
 }
 
@@ -426,11 +426,11 @@ span.text-red {
 .slick-dots li.slick-active button:before {
   opacity: .75;
   color: #fff;
-  font-size: 15px;
+  font-size: 7px;
 }
 
 .slick-dots li button:before {
-  font-size: 15px;
+  font-size: 7px;
 }
 
 .carousel-img {
@@ -441,7 +441,7 @@ span.text-red {
 }
 
 .carousel-banner {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 10vh auto 5vh auto;
   border-radius: 50px;
   position: relative;
