@@ -56,15 +56,28 @@ const ProductDetails = ({ products, product }) => {
           <div className='all-images-container'>
             <div className='image-container'>
               {/* Left Arrow */}
-              {/* Left Arrow */}
               <button onClick={handlePrev} className="arrow-button arrow-left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" className="flipped-svg arrow-svg">
                   <path d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM8.711,4.3l5.7,5.766L8.7,15.711,7.3,14.289l4.289-4.242L7.289,5.7Z" />
                 </svg>
               </button>
 
-              {/* Main Image */}
-              <img src={urlFor(image && image[index])} className="product-detail-image" />
+              <div style={{ position: 'relative' }}>
+                <img src={urlFor(image && image[index])} className="product-detail-image" />
+
+                {/* Text overlay */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  right: '10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  padding: '5px 10px',
+                  borderRadius: '5px'
+                }}>
+                  {index + 1}/{image?.length}
+                </div>
+              </div>
 
 
               {/* Right Arrow */}

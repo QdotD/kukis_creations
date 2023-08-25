@@ -338,6 +338,7 @@ span.text-red {
   border: none;
   padding: 10px 15px;
   cursor: pointer;
+  z-index: 1;
 }
 
 .arrow-left {
