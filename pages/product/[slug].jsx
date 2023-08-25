@@ -1,8 +1,9 @@
 //dynamic product details component
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 //import icons
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
+
 //component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
 import NoSsr from '../../components/NoSsr';
 
@@ -28,20 +29,58 @@ const ProductDetails = ({ products, product }) => {
     setShowCart(true);
   }
 
+  const imageRefs = useRef([]);
+
+  const handleNext = () => {
+    // Increment the index or reset to 0 if end is reached
+    setIndex(prevIndex => {
+      const newIndex = (prevIndex + 1) % image.length;
+      imageRefs.current[newIndex].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      return newIndex;
+    });
+  };
+
+  const handlePrev = () => {
+    // Decrement the index or set to last image if beginning is reached
+    setIndex(prevIndex => {
+      const newIndex = (prevIndex - 1 + image.length) % image.length;
+      imageRefs.current[newIndex].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      return newIndex;
+    });
+  };
+
   return (
     <div>
       <div className='product-detail-container'>
-
         <div className='product-detail-subcontainer'>
-
           <div className='all-images-container'>
             <div className='image-container'>
+              {/* Left Arrow */}
+              {/* Left Arrow */}
+              <button onClick={handlePrev} className="arrow-button arrow-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" className="flipped-svg arrow-svg">
+                  <path d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM8.711,4.3l5.7,5.766L8.7,15.711,7.3,14.289l4.289-4.242L7.289,5.7Z" />
+                </svg>
+              </button>
+
+              {/* Main Image */}
               <img src={urlFor(image && image[index])} className="product-detail-image" />
+
+
+              {/* Right Arrow */}
+              <button onClick={handleNext} className="arrow-button arrow-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" className="arrow-svg">
+                  <path d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM8.711,4.3l5.7,5.766L8.7,15.711,7.3,14.289l4.289-4.242L7.289,5.7Z" />
+                </svg>
+              </button>
             </div>
+
+            {/* Small Images */}
             <div className="small-images-container">
               {image?.map((item, i) => (
                 <img
                   key={i}
+                  ref={el => imageRefs.current[i] = el}
                   src={urlFor(item)}
                   className={i === index ? 'small-image selected-image' : 'small-image'}
                   onMouseEnter={() => setIndex(i)}
@@ -49,6 +88,7 @@ const ProductDetails = ({ products, product }) => {
               ))}
             </div>
           </div>
+
 
           <div className="product-detail-desc">
             <div className='details-and-buy'>

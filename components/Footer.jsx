@@ -9,7 +9,7 @@ const Footer = () => {
       <p className="icons">
         <NoSsr>
           <a href="https://www.instagram.com/kukiscreationsdotcom/" target="_blank" rel="noopener noreferrer">
-            <Image src="/instagram.svg" alt="Instagram" width={30} height={30} />
+            <img src="/instagram.svg" alt="Instagram" width={30} height={30} />
           </a>
           <a href="https://www.etsy.com/shop/KUKIsCREATIONSdotcom/" target="_blank" rel="noopener noreferrer">
             <Image src="/etsy.svg" alt="Instagram" width={50} height={40} />

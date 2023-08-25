@@ -327,6 +327,73 @@ span.text-red {
   transform: scale(1.1, 1.1)
 }
 
+.image-container {
+  position: relative;
+}
+
+.arrow-button {
+  position: absolute;
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.arrow-left {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.arrow-right {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.arrow-button svg path {
+  fill: #fff;
+}
+
+.flipped-svg {
+  transform: scaleX(-1);
+}
+
+.arrow-svg {
+  transition: all 0.3s ease;
+  /* makes changes smooth */
+  fill: #000;
+  /* initial SVG color */
+}
+
+.arrow-button:hover .arrow-svg {
+  transform: scale(1.1);
+  /* slight zoom effect */
+}
+
+.arrow-button:active .arrow-svg {
+  transform: scale(0.95);
+  /* slight shrink effect when the button is clicked */
+}
+
+.arrow-left .arrow-svg {
+  transform: scaleX(-1);
+  /* flips the SVG horizontally */
+}
+
+.arrow-button.arrow-left:hover .arrow-svg {
+  transform: scaleX(-1.1) scaleY(1.1);
+  /* scaleX(-1.1) to keep it flipped and scaleY(1.1) for a slight zoom effect */
+}
+
+.arrow-button.arrow-left:active .arrow-svg {
+  transform: scaleX(-0.95) scaleY(0.95);
+  /* slight shrink effect when the button is clicked */
+}
+
+
+
 /*///////////////////////////////// CAROUSEL ////////////////////////*/
 
 .slick-prev,
@@ -721,8 +788,8 @@ span.text-red {
   margin-top: 20px;
   padding-bottom: 5px;
   flex-direction: row;
+  width: 25vw;
   overflow-x: auto;
-  width: 250px;
   /* assuming each small image is about 60px wide */
   gap: 10px;
   /* for spacing between images */
