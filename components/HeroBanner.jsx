@@ -1,30 +1,19 @@
 import React from 'react';
 import Link from 'next/link';
-import { urlFor } from '../lib/client';
-
-//import global state and functions
-import { useStateContext } from '../context/StateContext';
 
 const HeroBanner = ({ heroBanner }) => {
-  const { setQty } = useStateContext();
 
   return (
-    <div className="main-banner-container">
-      <div>
-        <Link href="/">
-          <img src="/banner.JPG" alt="banner" className='banner-img' />
-        </Link>
-        <div>
-          <div className="desc">
-            <h5>Description</h5>
-            <p>{heroBanner.desc}</p> 
-            {/* change heroBanner to mainBanner and modify contents in database */}
-          </div>
-          <Link href={`/product/${heroBanner.product}`}>
-            <button type="button" className="banner-btn" onClick={() => setQty(1)}>Shop Now</button>
-          </Link>
-        </div>
-      </div>
+    <div className='hero-banner'>
+      <h5>
+        Welcome to Kuki's Creations
+      </h5>
+      <p>
+        Discover captivating video game character sculptures,
+        mesmerizing 3D printed models, charming keychains, elegant jewelry,
+        and more. Each piece is infused with passion and craftsmanship, making it a perfect addition
+        to any art enthusiast's collection. Explore this treasure trove of imagination and find unique art that resonates with you. Shop now and experience the magic of Kuki's Creations!
+      </p>
     </div>
   )
 }

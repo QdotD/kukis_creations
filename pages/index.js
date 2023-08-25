@@ -11,8 +11,8 @@ import Carousel from '../components/Carousel';
 
 const Home = ({ products, bannerData }) => (
   <div>
-    <Carousel />
     {/* <HeroBanner heroBanner={ bannerData.length && bannerData[0] }/> */}
+    <Carousel />
 
     {console.log(bannerData)}
 
@@ -25,7 +25,7 @@ const Home = ({ products, bannerData }) => (
 
       <div className="products-container">
         {/* question mark makes sure products exist before executing .map */}
-        {products?.map((product) => <Product key={product._id} product={product}/>)}
+        {products.slice(0, 4)?.map((product) => <Product key={product._id} product={product}/>)}
       </div>
     </div>
 
@@ -37,7 +37,7 @@ const Home = ({ products, bannerData }) => (
 
 // async function that allows us to fetch data from APIs ("Next.js will pre-render this page on each request using the data returned by getServerSideProps")
 export const getServerSideProps = async () => {
-  // lets grab all our products from the sanity dashboard
+  // grabs all our products from the sanity dashboard
   const query  = '*[_type == "product"]';
   const products = await client.fetch(query);
 

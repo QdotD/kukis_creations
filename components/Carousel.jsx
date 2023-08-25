@@ -15,8 +15,8 @@ const Carousel = () => {
     infinite: true,
     speed: 1000, // Adjust the speed of slide transition
     autoplay: true, // Enable autoplay for automatic sliding
-    autoplaySpeed: 2000, // Adjust the time interval between slides (in milliseconds)
-    arrows: true, // Hide arrows
+    autoplaySpeed: 5000, // Adjust the time interval between slides (in milliseconds)
+    arrows: true,
     slidesToShow: 1,
     slidesToScroll: 1,
 
@@ -36,25 +36,7 @@ const Carousel = () => {
           Your browser does not support the video tag.
         </video>
       </Slider>
-
-      <div className='desc'>
-          <h5>
-            Welcome to Kuki's Creations
-          </h5>
-          <h6>
-          Discover captivating video game character sculptures, 
-          mesmerizing 3D printed models, charming keychains, elegant jewelry, 
-          and more. Each piece is infused with passion and craftsmanship, making it a perfect addition 
-          to any art enthusiast's collection. Explore this treasure trove of imagination and find unique art that resonates with you. Shop now and experience the magic of Kuki's Creations!
-          </h6>
-      </div>
-
-      <button type="button" className="shop-now-btn">
-        <Link href="/products">SHOP NOW</Link>
-      </button>
-
     </div>
-
   );
 
 }

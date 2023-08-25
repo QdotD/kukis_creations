@@ -6,3 +6,4 @@ export { default as HeroBanner } from './HeroBanner';
 export { default as CustomerReviewBanner } from './CustomerReviewBanner';
 export { default as Cart } from './Cart';
 export { default as Carousel} from './Carousel';
+export { default as ProductPageItem} from './ProductPageItem';
