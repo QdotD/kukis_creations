@@ -1,14 +1,11 @@
-import React , { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { urlFor } from '../lib/client';
 
-//import global state and functions
-import { useStateContext } from '../context/StateContext';
-
-const Carousel = () => {
+const Carousel = ({ carousel }) => {
 
   const settings = {
     dots: true,
@@ -25,18 +22,18 @@ const Carousel = () => {
   return (
     <div className='carousel-banner'>
       <Slider {...settings}>
-        <div>
-          <img src="/carousel-images/10838035.jpg" alt="Image 1" className="carousel-img"/>
-        </div>
-        <div>
-          <img src="/carousel-images/HD-wallpaper-scottish-fold-cute-cat-pets-cats-cute-animals-close-up-domestic-cat-scottish-fold-cat.jpg" alt="Image 2" className="carousel-img"/>
-        </div>
         <video controls autoPlay muted loop className="carousel-img">
-          <source src="/carousel-images/jettVideo.mp4" type="video/mp4"/>
+          <source src="/jettVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        {carousel.map((item, index) => (
+          <div key={index}>
+            <img src={urlFor(item.image)} alt={item.altText} className="carousel-img" />
+          </div>
+        ))}
       </Slider>
     </div>
+
   );
 
 }

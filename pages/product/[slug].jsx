@@ -18,7 +18,7 @@ import { useStateContext } from '../../context/StateContext';
 
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
-  const { image, name, details, price, bingbong } = product;
+  const { image, name, details, price } = product;
   const [index, setIndex] = useState(0);
   // lets us use these functions here in our code
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
@@ -193,10 +193,10 @@ export const getStaticPaths = async () => {
 // getStaticProps (special nextjs function) check nextjs docs for more info, allows you to go to other pages without reloading because we already have the data rendered
 export const getStaticProps = async ({ params: { slug } }) => {
   // lets us grab all the product details of the product page we are on
-  const query = `*[_type == "product" && slug.current == '${slug}'][0]`;
+  const query = `*[_type == "products" && slug.current == '${slug}'][0]`;
 
   // fetch all similar products
-  const productsQuery = `*[_type == "product"]`;
+  const productsQuery = `*[_type == "products"]`;
 
   // grabs the individual product
   const product = await client.fetch(query);

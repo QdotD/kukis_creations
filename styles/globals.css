@@ -32,7 +32,7 @@ a {
 }
 
 .main-container {
-  max-width: 1400px;
+  /* max-width: 1400px; */
   margin: auto;
   width: 100%;
 
@@ -50,11 +50,12 @@ a {
   align-items: center;
   width: 100%;
   height: 5vw;
-  margin: 4vw 0;
+  margin: 4vw 0 0;
   position: relative;
   background-color: #FFE6C1;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
   padding: 0 5vw;
+  z-index: 1;
 }
 
 .logo-img {
@@ -182,33 +183,53 @@ span.text-red {
   font-size: 18px;
 }
 
-/* //////////////////////// Customer reviews banner ///////////////////// */
+/* //////////////////////// reviews banner ///////////////////// */
 
 .reviews-container {
-  margin-bottom: 10vh;
-}
-
-.reviews {
   display: flex;
-  flex-direction: row;
-  gap: 30px;
-  width: 80%;
-  margin: auto;
-  align-items: center;
+  justify-content: center;
+  gap: 3vw;
+  padding-bottom: 5vh;
 }
 
-.review-img {
-  width: 100%;
+.reviewerImage {
+  width: 100px;
+  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+}
+
+.reviewerInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reviewDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 15vw;
+  padding-top: 10px;
+  gap: 10px;
+}
+
+.reviewDate {
+  font-style: italic;
+  font-size: 12px;
 }
 
 .review-card {
   background-color: white;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 25vw;
-  height: 50vh;
+  height: 40vh;
+  border-radius: 8px;
 }
 
 
@@ -218,7 +239,7 @@ span.text-red {
   background-color: #FFF2DF;
   justify-content: center;
   align-items: center;
-  padding: 0 0 5vh 0;
+  padding-bottom: 5vh;
 }
 
 .products-container {
@@ -269,7 +290,9 @@ span.text-red {
 
 .products-heading,
 .reviews-heading {
-  margin: 40px auto 20px auto;
+  margin: auto;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
   width: 60%;
   color: #4D311B;
   display: flex;
@@ -401,12 +424,12 @@ span.text-red {
 .slick-next {
   z-index: 9999;
   width: 150px;
-  padding: 50% 20px
+  height: 100%;
 }
 
 .slick-dots {
   z-index: 1;
-  bottom: 50px;
+  bottom: 30px;
   font-size: 40px;
 }
 
@@ -435,17 +458,17 @@ span.text-red {
 
 .carousel-img {
   width: 100%;
-  height: 55vh;
+  height: 80vh;
   object-fit: Cover;
   z-index: 1;
 }
 
 .carousel-banner {
-  max-width: 800px;
-  margin: 10vh auto 5vh auto;
-  border-radius: 50px;
+  /* max-width: 1000px; */
+  margin: auto;
+  /* border-radius: 50px; */
   position: relative;
-  height: 50vh;
+  /* height: 50vh; */
   line-height: 0.9;
   width: 100%;
   overflow: hidden;
@@ -598,7 +621,6 @@ span.text-red {
 .footer-container {
   color: #324d67;
   text-align: center;
-  margin-top: 20px;
   padding: 30px 10px;
   font-weight: 700;
   display: flex;
