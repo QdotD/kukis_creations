@@ -165,7 +165,7 @@ const ProductDetails = ({ products, product }) => {
                           console.log("Button was clicked"); // Add this line
                           setButtonClicked(true);
                           onAdd(product, qty);
-                          setTimeout(() => setButtonClicked(false), 150);
+                          setTimeout(() => setButtonClicked(false), 150), setShowCart(true);
                         }}>Add to Cart</button>
                       {/* <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button> */}
                     </div>

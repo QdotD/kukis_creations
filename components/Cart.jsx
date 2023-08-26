@@ -56,11 +56,9 @@ const Cart = () => {
               <AiOutlineShopping size={150} />
             </NoSsr>
             <h3>Nothing in cart</h3>
-            <Link href="/">
-              <button type="button" onClick={() => setShowCart(false)} className="btn">
-                Continue Shopping
-              </button>
-            </Link>
+            <button type="button" onClick={() => setShowCart(false)} className="btn">
+              Continue Shopping
+            </button>
           </div>
         )}
 
@@ -74,7 +72,7 @@ const Cart = () => {
                   <h4>${item.price}</h4>
                 </div>
                 <div className="flex bottom">
-                <span className="cart-num-items-2">{totalQuantities} items</span>
+                  <span className="cart-num-items-2">{totalQuantities} items</span>
                   <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item)}>
                     <NoSsr>
                       <TiDeleteOutline />
