@@ -1,33 +1,51 @@
 import React from "react";
-
-//import product component
 import { ProductPageItem } from '../components';
-
-// pages/products.js
 import { client } from '../lib/client';
 
-const ProductsPage = ({ products }) => {
+const ProductsPageItem = ({ products }) => {
 
-    console.log(products)
+    const productCategories = ["3D-Printed", "Earrings", "Figurines"];  // Add more categories as needed
+
+    // Function to compare product categories in a case-insensitive manner
+    const caseInsensitiveIncludes = (arr, value) => {
+        return arr.some(arrValue => arrValue.toLowerCase() === value.toLowerCase());
+    }
+
+    // Group products by their category
+    const categorizedProducts = products.reduce((acc, product) => {
+        if (caseInsensitiveIncludes(productCategories, product.productCategory)) {
+            const categoryKey = productCategories.find(cat => cat.toLowerCase() === product.productCategory.toLowerCase());
+            if (!acc[categoryKey]) {
+                acc[categoryKey] = [];
+            }
+            acc[categoryKey].push(product);
+        }
+        return acc;
+    }, {});
 
     return (
         <div>
-            <div className="products-heading">
-                <div className="horizontal-bar"></div> {/* Left horizontal bar */}
-                <h2>Best Selling Products</h2>
-                <div className="horizontal-bar"></div> {/* Right horizontal bar */}
-            </div>
-            <div class="products-page-container">
-                {products.map((item) => (
-                    <ProductPageItem key={item._id} product={item} />
-                ))}
-            </div>
+            {productCategories.map(category => (
+                categorizedProducts[category] && (
+                    <div key={category}>
+                        <div className="products-heading products-page-heading">
+                            <h2>{category}</h2>
+                            <div className="horizontal-bar"></div>
+                        </div>
+                        <div className="products-page-container">
+                            {categorizedProducts[category].map(product => (
+                                <ProductPageItem key={product._id} product={product} />
+                            ))}
+                        </div>
+                    </div>
+                )
+            ))}
         </div>
     )
 }
 
 export const getStaticProps = async () => {
-    const productsQuery = `*[_type == "product"]`;
+    const productsQuery = `*[_type == "products"]`;
     const products = await client.fetch(productsQuery);
 
     return {
@@ -35,5 +53,4 @@ export const getStaticProps = async () => {
     }
 }
 
-export default ProductsPage;
-
+export default ProductsPageItem;

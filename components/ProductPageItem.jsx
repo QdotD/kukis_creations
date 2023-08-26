@@ -15,7 +15,7 @@ const ProductPageItem = ({ product: { image, name, slug, price, bingbong } }) =>
         <div className="product-page-card">
           <img 
             src={urlFor(image && image[0])} 
-            className="product-image"
+            className="product-image product-page-image"
             onClick={() => setQty(1)}
             alt="product image" />
             <p className="product-name">{name}</p>
