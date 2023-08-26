@@ -21,11 +21,19 @@ export const StateContext = ({ children }) => {
 
 	// state functions
 	const onAdd = (product, quantity) => {
+		if (!product || !product._id) {
+			console.error("Invalid product at start of onAdd:", product);
+			return;
+		}
+		// Parse and clean up quantity
+		let cleanedQuantity = parseInt(quantity, 10);
+		if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+
 		const checkProductInCart = cartItems.find((item) => item._id === product._id);
 
 		// update our states
-		setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
-		setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
+		setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * cleanedQuantity);
+		setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + cleanedQuantity);
 
 		// run if item already exists in the cart
 		if (checkProductInCart) {
@@ -102,12 +110,23 @@ export const StateContext = ({ children }) => {
 
 	//increment functions
 	const incQty = () => {
-		setQty((prevQty) => prevQty + 1);
+		setQty((prevQty) => {
+			// If prevQty is not defined or not a number, default it to 1
+			if (!prevQty || typeof prevQty !== 'number') {
+				return 1;
+			}
+
+			return prevQty + 1;
+		});
 	}
 	const decQty = () => {
 		setQty((prevQty) => {
-			if (prevQty - 1 < 1) return 1;
+			// If prevQty is not defined or not a number, default it to 1
+			if (!prevQty || typeof prevQty !== 'number') {
+				return 1;
+			}
 
+			if (prevQty - 1 < 1) return 1;
 			return prevQty - 1;
 		});
 	}
@@ -124,7 +143,7 @@ export const StateContext = ({ children }) => {
 				totalPrice,
 				totalQuantities,
 				qty,
-        setQty,
+				setQty,
 				incQty,
 				decQty,
 				onAdd,

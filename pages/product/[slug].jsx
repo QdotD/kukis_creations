@@ -20,8 +20,9 @@ const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
   const { image, name, details, price } = product;
   const [index, setIndex] = useState(0);
+  const [buttonClicked, setButtonClicked] = useState(false);
   // lets us use these functions here in our code
-  const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+  const { decQty, incQty, qty, setQty, onAdd, setShowCart } = useStateContext();
 
   // const handleBuyNow = () => {
   //   onAdd(product, qty);
@@ -52,6 +53,10 @@ const ProductDetails = ({ products, product }) => {
   return (
     <div>
       <div className='product-detail-container'>
+        <div className='product-detail-heading'>
+          <h1>{name}</h1>
+          <div className="horizontal-bar"></div>
+        </div>
         <div className='product-detail-subcontainer'>
           <div className='all-images-container'>
             <div className='image-container'>
@@ -62,7 +67,7 @@ const ProductDetails = ({ products, product }) => {
                 </svg>
               </button>
 
-              <div style={{ position: 'relative' }}>
+              <div>
                 <img src={urlFor(image && image[index])} className="product-detail-image" />
 
                 {/* Text overlay */}
@@ -102,22 +107,12 @@ const ProductDetails = ({ products, product }) => {
             </div>
           </div>
 
-
           <div className="product-detail-desc">
             <div className='details-and-buy'>
-              <div className='product-detail-heading'>
-                <div className="horizontal-bar"></div>
-                <h1>{name}</h1>
-                <div className="horizontal-bar"></div>
-              </div>
-              <div className='details'>
-                {/* <h4>Details: </h4> */}
-                <p>{details}</p>
-              </div>
-
-              <div className='price-and-reviews'>
-                <p className="price"><strong>USD ${price}</strong> <em>(plus shipping & tax)</em></p>
-                {/* <div className="reviews">
+              <div className='top-details-desc'>
+                <div className='price-and-reviews'>
+                  <p className="price"><strong>USD ${price}</strong> <em>(plus shipping & tax)</em></p>
+                  {/* <div className="reviews">
                 <div>
                   <NoSsr>
                   <AiFillStar />
@@ -129,27 +124,62 @@ const ProductDetails = ({ products, product }) => {
                 </div>
                 <p>(20)</p>
               </div> */}
+                </div>
+                <div className='details'>
+                  {/* <h4>Details: </h4> */}
+                  <p>{details}</p>
+                </div>
+
               </div>
 
-              <div className='buy'>
-                <div className="quantity">
-                  {/* <h3>Quantity: </h3> */}
-                  <div className="quantity-desc">
-                    <span className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></span>
-                    <span className="num">{qty}</span>
-                    <span className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></span>
+              <div className='bottom-details-desc'>
+                <div className='buy'>
+                  <div className='buy-left'>
+                    <div>
+                      Materials: plastic, acrylic, paint, zinc
+                    </div>
+                    <div>
+                      Weight: 5g
+                    </div>
+                    <div>
+                      Dimensions: 4.2 x 2 x 2 cm
+                    </div>
                   </div>
-                </div>
-                <div className="buttons">
-                  <button type="button" className="add-to-cart" onClick={() => onAdd(product, qty)}>Add to Cart</button>
-                  {/* <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button> */}
+                  <div className='buy-right'>
+                    <div className="quantity">
+                      <div className="quantity-desc">
+                        <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
+                        <input
+                          type="number"
+                          className="input"
+                          value={qty}
+                          onChange={(e) => setQty(parseInt(e.target.value, 10))}
+                          min="1"
+                        />
+                        <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                      </div>
+                    </div>
+                    <div className="buttons">
+                      <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
+                        onClick={() => {
+                          console.log("Button was clicked"); // Add this line
+                          setButtonClicked(true);
+                          onAdd(product, qty);
+                          setTimeout(() => setButtonClicked(false), 150);
+                        }}>Add to Cart</button>
+                      {/* <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button> */}
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
             </div>
 
+
           </div>
         </div>
-      </div>
+      </div >
 
       <div className="maylike-products-wrapper">
         <h2>You may also like these products:</h2>
@@ -161,7 +191,7 @@ const ProductDetails = ({ products, product }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
