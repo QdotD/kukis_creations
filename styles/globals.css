@@ -120,24 +120,6 @@ a {
 
 }
 
-
-
-/* /////////////////////////////////////////////////////////*/
-.marquee-text {
-  font-size: 29px;
-  font-weight: 600;
-  margin: 60px 0px;
-  color: pink;
-}
-
-.marquee {
-  position: relative;
-  height: 300px;
-  width: 100%;
-  overflow-x: hidden;
-  margin: auto;
-}
-
 .track {
   /* position: absolute; */
   white-space: nowrap;
@@ -241,6 +223,11 @@ span.text-red {
   padding-bottom: 5vh;
 }
 
+.maylike-container {
+  padding-bottom: 0;
+  background-color: transparent;
+}
+
 .products-container {
   display: flex;
   flex-wrap: wrap;
@@ -248,6 +235,8 @@ span.text-red {
   gap: 25px;
   width: 100%;
 }
+
+
 
 .product-card {
   cursor: pointer;
@@ -1092,31 +1081,6 @@ html::-webkit-scrollbar-thumb {
 .quantity-desc .plus:active {
   transform: scale(0.9);
   /* Shrinks the button to 90% of its size */
-}
-
-.maylike-products-wrapper {
-  margin-top: 60px;
-}
-
-.maylike-products-wrapper h2 {
-  text-align: center;
-  margin: 35px;
-  color: #FFE6C1;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-
-  font-size: 28px;
-}
-
-.maylike-products-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: auto;
-  margin-top: 20px;
 }
 
 .max-qty {

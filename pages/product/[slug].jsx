@@ -10,8 +10,8 @@ import NoSsr from '../../components/NoSsr';
 //import stuff from sanity client
 import { client, urlFor } from '../../lib/client';
 
-//import product component
-import { Product } from '../../components';
+//import BestSellers component
+import { MayLike } from '../../components';
 
 //import global state and functions
 import { useStateContext } from '../../context/StateContext';
@@ -179,19 +179,11 @@ const ProductDetails = ({ products, product }) => {
 
           </div>
         </div>
-      </div >
-
-      <div className="maylike-products-wrapper">
-        <h2>You may also like these products:</h2>
-        <div className="marquee">{/* marquee is a list of scrolling divs/scrolling parts*/}
-          <div className="maylike-products-container track">
-            {products.slice(0, 4)?.map((item) => (
-              <Product key={item._id} product={item} />
-            ))}
-          </div>
-        </div>
       </div>
-    </div >
+
+      <MayLike products={products} />
+
+    </div>
   )
 }
 
