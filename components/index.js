@@ -7,3 +7,4 @@ export { default as Cart } from './Cart';
 export { default as Carousel} from './Carousel';
 export { default as ProductPageItem} from './ProductPageItem';
 export { default as Review} from './Review';
+export { default as BestSellers} from './BestSellers';
