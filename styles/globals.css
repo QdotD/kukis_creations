@@ -722,7 +722,12 @@ span.text-red {
   width: 25vw;
   height: 25vw;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: opacity 0.1s;
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
 }
 
 .small-images-container {
@@ -1105,7 +1110,20 @@ html::-webkit-scrollbar-thumb {
   .product-detail-image {
     width: 100%;
     height: auto;
+    transition: opacity 0.4s;
+    opacity: 1;
   }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
 
   .image-container {
     margin-top: 20px;

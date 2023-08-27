@@ -33,22 +33,62 @@ const ProductDetails = ({ products, product }) => {
   const imageRefs = useRef([]);
 
   const handleNext = () => {
-    // Increment the index or reset to 0 if end is reached
-    setIndex(prevIndex => {
-      const newIndex = (prevIndex + 1) % image.length;
-      imageRefs.current[newIndex].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-      return newIndex;
-    });
+    const imageEl = document.querySelector('.product-detail-image');
+    imageEl.classList.add('fade-out');
+
+    setTimeout(() => {
+      // Increase your image index or however you change your image
+      setIndex((index + 1) % image.length);
+
+      // Refresh image source
+      imageEl.src = urlFor(image && image[index]);
+
+      // Remove fade-out class after image source has been updated
+      imageEl.classList.remove('fade-out');
+    }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
   };
 
+
   const handlePrev = () => {
-    // Decrement the index or set to last image if beginning is reached
-    setIndex(prevIndex => {
-      const newIndex = (prevIndex - 1 + image.length) % image.length;
-      imageRefs.current[newIndex].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-      return newIndex;
-    });
+    const imageEl = document.querySelector('.product-detail-image');
+    imageEl.classList.add('fade-out');
+
+    setTimeout(() => {
+      // Decrease your image index or however you change your image
+      setIndex((index - 1 + image.length) % image.length);
+
+      // Refresh image source
+      imageEl.src = urlFor(image && image[index]);
+
+      // Remove fade-out class after image source has been updated
+      imageEl.classList.remove('fade-out');
+    }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
   };
+
+
+  let startX; // Where the touch starts
+  let distance; // Distance swiped
+
+  const startSwipe = (e) => {
+    startX = e.touches[0].clientX;
+  };
+
+  const moveSwipe = (e) => {
+    if (!startX) return;
+    const x = e.touches[0].clientX;
+    distance = startX - x;
+  };
+
+  const endSwipe = () => {
+    if (distance > 100) {
+      handleNext();
+    } else if (distance < -100) {
+      handlePrev();
+    }
+    startX = null;
+    distance = null;
+  };
+
 
   return (
     <div>
@@ -59,7 +99,7 @@ const ProductDetails = ({ products, product }) => {
         </div>
         <div className='product-detail-subcontainer'>
           <div className='all-images-container'>
-            <div className='image-container'>
+            <div className='image-container' onTouchStart={startSwipe} onTouchMove={moveSwipe} onTouchEnd={endSwipe}>
               {/* Left Arrow */}
               <button onClick={handlePrev} className="arrow-button arrow-left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" className="flipped-svg arrow-svg">
