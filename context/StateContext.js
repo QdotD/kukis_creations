@@ -19,6 +19,19 @@ export const StateContext = ({ children }) => {
 	let index;
 	let timeAddedToCart;
 
+	useEffect(() => {
+		if (showCart) {
+			document.body.classList.add('body-with-cart-open');
+		} else {
+			document.body.classList.remove('body-with-cart-open');
+		}
+		
+		// Cleanup function:
+		return () => {
+			document.body.classList.remove('body-with-cart-open');
+		};
+	}, [showCart]);
+
 	// state functions
 	const onAdd = (product, quantity) => {
 		if (!product || !product._id) {

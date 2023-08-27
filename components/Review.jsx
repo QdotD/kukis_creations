@@ -20,10 +20,10 @@ const SingleReview = ({ review }) => {
                 <p className="reviewerName">{review.reviewerName}</p>
             </div>
             <div className="reviewDetails">
-                <p className="reviewStars">{stars}</p>
                 <p className="reviewDesc">{review.reviewDesc}</p>
-                <p className="reviewDate">{review.reviewDate}</p>
+                <p className="reviewStars">{stars}</p>
             </div>
+                <p className="reviewDate">{review.reviewDate}</p>
         </div>
     );
 }
