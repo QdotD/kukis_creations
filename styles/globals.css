@@ -1069,19 +1069,18 @@ input[type="number"] {
 
 .success-wrapper,
 .cancel-wrapper {
-  background-color: white;
+  /* background-color: white; */
   min-height: 60vh;
-
 }
 
 .success,
 .cancel {
-  width: 1000px;
+  /* width: 1000px; */
   margin: auto;
-  margin-top: 160px;
-  background-color: #dcdcdc;
+  /* margin-top: 160px; */
+  /* background-color: #dcdcdc; */
   padding: 50px;
-  border-radius: 15px;
+  /* border-radius: 15px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1296,6 +1295,15 @@ input[type="number"] {
     font-size: 1.5rem;
   }
 
+  .success {
+    transform: scale(.75);
+  }
+
+  .success h2 {
+    width: 100%;
+    text-align: center;
+  }
+
 }
 
 @media (min-width: 1400px) {
@@ -1311,7 +1319,8 @@ input[type="number"] {
     width: 400px;
   }
 
-  .subtotal-container, .tax_and_shipping {
+  .subtotal-container,
+  .tax_and_shipping {
     font-size: .8rem;
   }
 }
