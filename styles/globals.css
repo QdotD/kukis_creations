@@ -633,6 +633,8 @@ span.text-red {
 
 .subtotal-container {
   padding-top: 10px;
+  margin: auto;
+  text-align: center;
 }
 
 /* Styling the scrollbar for WebKit browsers */
@@ -1290,6 +1292,10 @@ input[type="number"] {
     /* ensures the image covers the whole container without distortion */
   }
 
+  .subtotal-container {
+    font-size: 1.5rem;
+  }
+
 }
 
 @media (min-width: 1400px) {
@@ -1303,6 +1309,10 @@ input[type="number"] {
 
   .item-desc .flex {
     width: 400px;
+  }
+
+  .subtotal-container, .tax_and_shipping {
+    font-size: .8rem;
   }
 }
 

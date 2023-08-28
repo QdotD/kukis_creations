@@ -131,7 +131,7 @@ const Cart = () => {
         {cartItems.length >= 1 && (
           <div className="cart-bottom">
             <div className='btn-container'>
-              <div>
+              <div className='subtotal-container'>
                 <span className='total-first-letter'>Y</span><span className="total">our subtotal is</span>
                 <span className="total"> ${safeToFixed(totalPrice)}</span><em className="tax_and_shipping"> (plus shipping & tax)</em>
               </div>
