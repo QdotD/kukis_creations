@@ -18,15 +18,35 @@ export const StateContext = ({ children }) => {
 	useEffect(() => {
 		if (showCart) {
 			document.body.classList.add('body-with-cart-open');
+			
+			// Accessing the slick-prev element and modifying its style:
+			const slickPrev = document.querySelector('.slick-prev');
+			if (slickPrev) {
+				slickPrev.style.zIndex = '-1';  // Hide it when cart is shown
+			}
 		} else {
 			document.body.classList.remove('body-with-cart-open');
+			
+			// Restore z-index for slick-prev when cart is not shown:
+			const slickPrev = document.querySelector('.slick-prev');
+			if (slickPrev) {
+				slickPrev.style.zIndex = '1';  // Set to a value that makes it visible
+			}
 		}
-
+	
 		// Cleanup function:
 		return () => {
 			document.body.classList.remove('body-with-cart-open');
+			
+			// Restore z-index for slick-prev when component unmounts:
+			const slickPrev = document.querySelector('.slick-prev');
+			if (slickPrev) {
+				slickPrev.style.zIndex = '1';  // Set to a value that makes it visible
+			}
 		};
 	}, [showCart]);
+	
+
 
 	// state functions
 

@@ -421,6 +421,10 @@ span.text-red {
   height: 100%;
 }
 
+.slick-prev {
+  z-index: 1;
+}
+
 .slick-dots {
   bottom: 30px;
 }
@@ -618,7 +622,30 @@ span.text-red {
   max-height: 70vh;
   padding: 20px 10px;
   width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #f4b4b3 transparent;
 }
+
+/* Styling the scrollbar for WebKit browsers */
+.product-container::-webkit-scrollbar {
+  width: 5px;
+  /* Width of the scrollbar */
+}
+
+.product-container::-webkit-scrollbar-thumb {
+  background-color: #f4b4b3;
+  /* Color of the draggable scroll thumb */
+  border-radius: 4px;
+  /* Makes the edges round */
+}
+
+.product-container::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  /* Color of the track/container of the scrollbar */
+  border-radius: 4px;
+  /* Makes the edges round */
+}
+
 
 .product {
   display: flex;
@@ -778,7 +805,10 @@ span.text-red {
   background-color: #f4b4b3;
   border-radius: 20px;
 }
-
+.small-images-container::-webkit-scrollbar-thumb {
+  background-color: #f4b4b3;
+  border-radius: 20px;
+}
 
 /* scrollbar for whole site */
 html {
