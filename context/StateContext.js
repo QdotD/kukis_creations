@@ -13,11 +13,7 @@ export const StateContext = ({ children }) => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantities, setTotalQuantities] = useState(0);
 	const [qty, setQty] = useState(1);
-
-	//normal variables
-	let foundProduct;
-	let index;
-	let timeAddedToCart;
+	const [localQuantities, setLocalQuantities] = useState({});
 
 	useEffect(() => {
 		if (showCart) {
@@ -25,7 +21,7 @@ export const StateContext = ({ children }) => {
 		} else {
 			document.body.classList.remove('body-with-cart-open');
 		}
-		
+
 		// Cleanup function:
 		return () => {
 			document.body.classList.remove('body-with-cart-open');
@@ -33,93 +29,141 @@ export const StateContext = ({ children }) => {
 	}, [showCart]);
 
 	// state functions
+
+	const getCartItemsFromSession = () => {
+		const storedCart = sessionStorage.getItem('cartItems');
+		if (storedCart) {
+			return JSON.parse(storedCart);
+		}
+		return [];
+	};
+
+	const setCartItemsToSession = (items) => {
+		sessionStorage.setItem('cartItems', JSON.stringify(items));
+	};
+
+	useEffect(() => {
+		const initialCart = getCartItemsFromSession();
+		setCartItems(initialCart);
+	}, []);
+
+
+
 	const onAdd = (product, quantity) => {
 		if (!product || !product._id) {
 			console.error("Invalid product at start of onAdd:", product);
 			return;
 		}
+
+		// Get cart items from sessionStorage
+		let cartItems = getCartItemsFromSession();
+
 		// Parse and clean up quantity
 		let cleanedQuantity = parseInt(quantity, 10);
 		if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
 
 		const checkProductInCart = cartItems.find((item) => item._id === product._id);
 
-		// update our states
-		setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * cleanedQuantity);
-		setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + cleanedQuantity);
-
-		// run if item already exists in the cart
 		if (checkProductInCart) {
-			// update # of items in cart
 			const updatedCartItems = cartItems.map((cartProduct) => {
-				console.log('item already exists: ', cartProduct);
-				// cartProduct._time
-
-				// appends a timestamp to the cartProduct object
-				if (cartProduct._id === product._id) return {
-					...cartProduct,
-					quantity: cartProduct.quantity + quantity,
-					timeAddedToCart: timeAddedToCart ? timeAddedToCart : Date.now()
+				if (cartProduct._id === product._id) {
+					return {
+						...cartProduct,
+						quantity: cartProduct.quantity + cleanedQuantity,
+						timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now()
+					}
 				}
+				return cartProduct;
 			});
 
+			// Update cart in state and sessionStorage
 			setCartItems(updatedCartItems);
-			// else run this if item doesn't already exist in cart
+			setCartItemsToSession(updatedCartItems);
 		} else {
-			console.log('item doesnt already exist: ', product);
-			product.quantity = quantity;
+			product.quantity = cleanedQuantity;
 			if (!product.timeAddedToCart) {
 				product.timeAddedToCart = Date.now();
 			}
 
-			setCartItems([...cartItems, { ...product }]);
+			const newCartItems = [...cartItems, { ...product }];
+
+			// Update cart in state and sessionStorage
+			setCartItems(newCartItems);
+			setCartItemsToSession(newCartItems);
 		}
+
+		// update total values - Note: you might consider moving this logic to a useEffect that watches cartItems
+		updateTotalPrice();
+		updateTotalQuantities();
+		setLocalQuantities(cleanedQuantity);
+
 		// success toast message
-		toast.success(`${qty} ${product.name} added to the cart.`);
-	}
+		toast.success(`${cleanedQuantity} ${product.name} added to the cart.`);
+	};
 
 	const onRemove = (product) => {
-		foundProduct = cartItems.find((item) => item._id === product._id);
+		// Get cart items from sessionStorage
+		let cartItems = getCartItemsFromSession();
+
 		const newCartItems = cartItems.filter((item) => item._id !== product._id);
 
-		setTotalPrice((prevTotalPrice) => prevTotalPrice - (foundProduct.price * foundProduct.quantity));
-		setTotalQuantities(prevTotalQuantities => prevTotalQuantities - foundProduct.quantity);
+		// Update cart in state and sessionStorage
 		setCartItems(newCartItems);
-	}
+		setCartItemsToSession(newCartItems);
 
-	//cart functions
-	const toggleCartItemQuantity = (id, value) => {
-		foundProduct = cartItems.find((item) => item._id === id);
-		index = cartItems.findIndex((product) => product._id === id);
-		// do not use "splice", this mutates the state (big no no in react), use filter instead
-		// keep all of the items except the one we are changing (i.e filtering out)
-		const newCartItems = cartItems.filter((item) => item._id !== id);
+		// update total values - Note: you might consider moving this logic to a useEffect that watches cartItems
+		updateTotalPrice();
+		updateTotalQuantities();
 
-		if (value === 'inc') {
-			let sortedCartItemsInc = [...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1 }];
-			// console.log("before sort inc: ", sortedCartItemsInc);
-			sortedCartItemsInc.sort((a, b) => (a.timeAddedToCart - b.timeAddedToCart));
-			// console.log("after sort inc: ", sortedCartItemsInc);
+		// success toast message
+		toast.error(`${product.name} removed from the cart.`);
+	};
 
-			setCartItems(sortedCartItemsInc);
-			setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
-			setTotalQuantities(prevTotalQuantities => prevTotalQuantities + 1);
-		} else if (value === 'dec') {
-			if (foundProduct.quantity > 1) {
-				let sortedCartItemsDec = [...newCartItems, { ...foundProduct, quantity: foundProduct.quantity - 1 }];
-				// console.log("before sort dec: ", sortedCartItemsDec);
-				sortedCartItemsDec.sort((a, b) => (a.timeAddedToCart - b.timeAddedToCart));
-				// console.log("after sort dec: ", sortedCartItemsDec);
 
-				setCartItems(sortedCartItemsDec);
-				setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
-				setTotalQuantities(prevTotalQuantities => prevTotalQuantities - 1);
-			}
+	const handleQuantityChange = (newQuantity, product) => {
+		if (!product || !product._id) {
+			console.error("Invalid or missing product:", product);
+			return;
 		}
-	}
+
+		const quantity = parseInt(newQuantity, 10);
+		if (isNaN(quantity) || quantity <= 0) return;
+
+		const updatedCartItems = cartItems.map((cartProduct) => {
+			if (cartProduct._id === product._id) {
+				toast.success(`${cartProduct.name} updated to ${quantity}.`);
+				return {
+					...cartProduct,
+					quantity: quantity
+				};
+			}
+
+			return cartProduct;
+		});
+
+		setCartItems(updatedCartItems);
+		sessionStorage.setItem('cart', JSON.stringify(updatedCartItems));
+
+		updateTotalPrice();
+		updateTotalQuantities();
+	};
 
 
+	const updateTotalPrice = () => {
+		const newTotalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+		setTotalPrice(newTotalPrice);
+	};
 
+	const updateTotalQuantities = () => {
+		const newTotalQuantities = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+		setTotalQuantities(newTotalQuantities);
+	};
+
+
+	useEffect(() => {
+		updateTotalPrice();
+		updateTotalQuantities();
+	}, [cartItems]);
 
 	//increment functions
 	const incQty = () => {
@@ -162,10 +206,12 @@ export const StateContext = ({ children }) => {
 				onAdd,
 				onRemove,
 				setShowCart,
-				toggleCartItemQuantity,
 				setCartItems,
 				setTotalPrice,
 				setTotalQuantities,
+				handleQuantityChange,
+				localQuantities,
+				setLocalQuantities,
 			}}
 		>
 			{children}

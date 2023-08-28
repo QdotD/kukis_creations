@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -13,8 +13,9 @@ import getStripe from '../lib/getStripe';
 
 const Cart = () => {
   const cartRef = useRef();
+  const inputRef = useRef();
   // state context
-  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity, onRemove, decQty, incQty, qty, setQty } = useStateContext();
+  const { totalPrice, totalQuantities, cartItems, setShowCart, onRemove, onAdd, handleQuantityChange, localQuantities, setLocalQuantities } = useStateContext();
 
   // function sends product data from cart to stripe
   const handleCheckout = async () => {
@@ -37,6 +38,16 @@ const Cart = () => {
     stripe.redirectToCheckout({ sessionId: data.id })
   }
 
+  const calculateTotal = (price, quantity) => {
+    const total = price * quantity;
+    return isNaN(total) ? 0 : total;
+  }
+
+  const safeToFixed = (value) => {
+    const numberValue = Number(value);
+    return isNaN(numberValue) ? "0.00" : numberValue.toFixed(2);
+  }
+
   return (
     <div className="cart-wrapper" ref={cartRef}>
       <div className='outside-cart-container' onClick={() => setShowCart(false)}></div>
@@ -56,7 +67,7 @@ const Cart = () => {
               <AiOutlineShopping size={150} />
             </NoSsr>
             <h3>Nothing in cart</h3>
-            <button type="button" onClick={() => setShowCart(false)} className="btn">
+            <button type="button" onClick={() => setShowCart(false)} className="btn cart-btn">
               Continue Shopping
             </button>
           </div>
@@ -64,20 +75,54 @@ const Cart = () => {
 
         <div className="product-container">
           {cartItems.length >= 1 && cartItems.map((item, index) => (
-            <div className="product" key={Math.random().toString(36).substr(2, 9)}>
+            <div className="product cart-product" key={item._id}>
               <img src={urlFor(item?.image[0])} className="cart-product-image" />
               <div className="item-desc">
                 <div className="flex top">
                   <h5>{item.name}</h5>
-                  <h4>${item.price}</h4>
                 </div>
                 <div className="flex bottom">
-                  <span className="cart-num-items-2">{totalQuantities} items</span>
-                  <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item)}>
-                    <NoSsr>
-                      <TiDeleteOutline />
-                    </NoSsr>
-                  </button>
+                  <div className="quantity">
+                    <div className="quantity-desc cart-quantity-btn">
+                      <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item)}>
+                        <NoSsr>
+                          <TiDeleteOutline />
+                        </NoSsr>
+                      </button>
+                      <input
+                        // ref={inputRef}
+                        type="number"
+                        className="input"
+                        value={localQuantities[item._id] !== undefined ? localQuantities[item._id] : item.quantity}
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+                          let newQuantity;
+
+                          if (inputValue === '') {
+                            newQuantity = ''; // Allow empty string
+                          } else {
+                            newQuantity = parseInt(inputValue, 10) || 1; // If NaN, default to 1
+                          }
+
+                          setLocalQuantities(prevState => ({
+                            ...prevState,
+                            [item._id]: newQuantity
+                          }));
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            handleQuantityChange(localQuantities[item._id] || item.quantity, item);
+                          }
+                        }}
+                        min="1"
+                      />
+                      <button className="plus" onClick={() => { onAdd(item); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                    </div>
+                  </div>
+                  <h4>
+                    ${calculateTotal(item.price, item.quantity).toFixed(2)}
+                  </h4>
+
                 </div>
               </div>
             </div>
@@ -85,13 +130,13 @@ const Cart = () => {
         </div>
         {cartItems.length >= 1 && (
           <div className="cart-bottom">
-            <div className="total">
-              <h3>Subtotal:</h3>
-              <h3>${totalPrice.toFixed(2)}</h3>
-            </div>
             <div className='btn-container'>
-              <button type="button" className='btn' onClick={handleCheckout}>
-                Pay with Stripe
+              <div>
+                <span className='total-first-letter'>Y</span><span className="total">our subtotal is</span>
+                <span className="total"> ${safeToFixed(totalPrice)}</span><em className="tax_and_shipping"> (plus shipping & tax)</em>
+              </div>
+              <button type="button" className='btn-container btn' onClick={handleCheckout}>
+                Pay now with Stripe
               </button>
             </div>
           </div>

@@ -16,6 +16,8 @@ import { MayLike } from '../../components';
 //import global state and functions
 import { useStateContext } from '../../context/StateContext';
 
+import toast from 'react-hot-toast';
+
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
   const { image, name, details, price } = product;
@@ -47,7 +49,6 @@ const ProductDetails = ({ products, product }) => {
       imageEl.classList.remove('fade-out');
     }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
   };
-
 
   const handlePrev = () => {
     const imageEl = document.querySelector('.product-detail-image');
@@ -153,17 +154,17 @@ const ProductDetails = ({ products, product }) => {
                 <div className='price-and-reviews'>
                   <p className="price"><strong>USD ${price}</strong> <em>(plus shipping & tax)</em></p>
                   {/* <div className="reviews">
-                <div>
-                  <NoSsr>
-                  <AiFillStar />
-                  <AiFillStar />
-                  <AiFillStar />
-                  <AiFillStar />
-                  <AiOutlineStar />
-                  </NoSsr>
-                </div>
-                <p>(20)</p>
-              </div> */}
+                  <div>
+                    <NoSsr>
+                    <AiFillStar />
+                    <AiFillStar />
+                    <AiFillStar />
+                    <AiFillStar />
+                    <AiOutlineStar />
+                    </NoSsr>
+                  </div>
+                  <p>(20)</p>
+                </div> */}
                 </div>
                 <div className='details'>
                   {/* <h4>Details: </h4> */}
@@ -189,26 +190,46 @@ const ProductDetails = ({ products, product }) => {
                     <div className="quantity">
                       <div className="quantity-desc">
                         <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
+
                         <input
                           type="number"
-                          className="input"
+                          className='input'
                           value={qty}
-                          onChange={(e) => setQty(parseInt(e.target.value, 10))}
-                          min="1"
+                          onChange={(e) => setQty(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const newQuantity = parseInt(e.target.value, 10);
+                              if (!isNaN(newQuantity) && newQuantity > 0) {
+                                onAdd(product, newQuantity);
+                                setShowCart(true);
+                              } else {
+                                toast.error("Please enter a valid quantity.");
+                              }
+                            }
+                          }}
                         />
+
                         <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
                       </div>
                     </div>
-                    <div className="buttons">
-                      <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
-                        onClick={() => {
-                          console.log("Button was clicked"); // Add this line
-                          setButtonClicked(true);
-                          onAdd(product, qty);
-                          setTimeout(() => setButtonClicked(false), 150), setShowCart(true);
-                        }}>Add to Cart</button>
-                      {/* <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button> */}
-                    </div>
+                    <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
+                      onClick={() => {
+                        setButtonClicked(true);
+
+                        let cleanedQuantity = parseInt(qty, 10);
+                        if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+
+
+                        onAdd(product, qty);  // Use the product from the product listing and the qty from the state
+                        setTimeout(() => {
+                          setButtonClicked(false);
+                          setShowCart(true);
+                        }, 150);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+
                   </div>
 
 
@@ -231,11 +252,11 @@ const ProductDetails = ({ products, product }) => {
 export const getStaticPaths = async () => {
   // give me the data for all the procuts
   const query = `*[_type == "products"] {
-    // but dont return all of it just give me the current slug property
-    slug {
-      current
-    }
-  }`;
+      // but dont return all of it just give me the current slug property
+      slug {
+        current
+      }
+    }`;
 
   const products = await client.fetch(query);
 
