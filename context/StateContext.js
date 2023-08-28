@@ -46,6 +46,31 @@ export const StateContext = ({ children }) => {
 		};
 	}, [showCart]);
 
+	useEffect(() => {
+		// Function to handle the back button press
+		const handleBackButton = (event) => {
+			if (showCart) {
+				// Prevent the browser's default back action
+				event.preventDefault();
+
+				// Close the cart
+				setShowCart(false);
+			}
+		};
+
+		// If the cart is shown, push a new state to the history
+		if (showCart) {
+			window.history.pushState({ noBackExitsApp: true }, '');
+		}
+
+		// Listen for the popstate event
+		window.addEventListener('popstate', handleBackButton);
+
+		// Cleanup: Remove the event listener when the component is unmounted
+		return () => {
+			window.removeEventListener('popstate', handleBackButton);
+		};
+	}, [showCart, setShowCart]);
 
 
 

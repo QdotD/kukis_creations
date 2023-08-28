@@ -425,6 +425,10 @@ span.text-red {
   z-index: 1;
 }
 
+.arrow-left {
+  z-index: 1;
+}
+
 .slick-dots {
   bottom: 30px;
 }
