@@ -805,6 +805,7 @@ span.text-red {
   background-color: #f4b4b3;
   border-radius: 20px;
 }
+
 .small-images-container::-webkit-scrollbar-thumb {
   background-color: #f4b4b3;
   border-radius: 20px;
@@ -1245,6 +1246,27 @@ html::-webkit-scrollbar-thumb {
     flex-direction: column;
     justify-content: space-evenly;
   }
+
+  .product-image-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    /* ensures that the container starts with no height */
+    padding-bottom: 100%;
+    /* ensures that height matches the width */
+    overflow: hidden;
+  }
+
+  .product-detail-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ensures the image covers the whole container without distortion */
+  }
+
 }
 
 @media (min-width: 1400px) {

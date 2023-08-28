@@ -108,7 +108,7 @@ const ProductDetails = ({ products, product }) => {
                 </svg>
               </button>
 
-              <div>
+              <div className="product-image-container">
                 <img src={urlFor(image && image[index])} className="product-detail-image" />
 
                 {/* Text overlay */}
