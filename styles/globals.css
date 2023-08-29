@@ -232,6 +232,7 @@ span.text-red {
 .maylike-container {
   padding-bottom: 0;
   background-color: transparent;
+  margin-bottom: 5vh;
 }
 
 .products-container {

@@ -188,10 +188,11 @@ export const StateContext = ({ children }) => {
 		});
 
 		setCartItems(updatedCartItems);
-		sessionStorage.setItem('cart', JSON.stringify(updatedCartItems));
+		setCartItemsToSession(updatedCartItems);
 
 		updateTotalPrice();
 		updateTotalQuantities();
+		setLocalQuantities(quantity);
 	};
 
 
