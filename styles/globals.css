@@ -1042,7 +1042,7 @@ input[type="number"] {
   background-color: transparent;
   border: 0;
   width: 20px;
-  transform: scale(2);
+  transform: scale(1.75);
   transition: transform 0.1s ease-out;
   cursor: pointer;
   font-weight: bold;
@@ -1057,7 +1057,7 @@ input[type="number"] {
   background-color: transparent;
   border: 0;
   width: 20px;
-  transform: scale(2);
+  transform: scale(1.75);
   transition: transform .1s ease-out;
   cursor: pointer;
   font-weight: bold;
