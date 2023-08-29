@@ -1371,6 +1371,10 @@ input[type="number"] {
   .add-to-cart {
     font-size: 1rem ;
   }
+
+  .product-detail-container {
+    padding-bottom: 5%;
+  }
 }
 
 @media (min-width: 1400px) {
