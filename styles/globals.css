@@ -901,7 +901,7 @@ html::-webkit-scrollbar-thumb {
   align-items: flex-end;
   flex-direction: column;
   gap: 10px;
-  width: 35%;
+  width: 40%;
   max-width: 300px;
 }
 
@@ -1248,6 +1248,15 @@ input[type="number"] {
     gap: 50px;
   }
 
+  .buy {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .buy-left {
+    width: 100%;
+  }
+
   .product-image {
     width: 125px;
     height: 125px;
@@ -1357,6 +1366,10 @@ input[type="number"] {
 
   .commissions-form {
     width: 350px;
+  }
+
+  .add-to-cart {
+    font-size: 1rem ;
   }
 }
 
