@@ -1169,6 +1169,51 @@ input[type="number"] {
   color: #FFB1B1;
 }
 
+/* commissions page */
+
+.commissions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5vh;
+  margin-bottom: 15vh;
+  font-family: Arial, sans-serif;
+}
+
+.commissions-form {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+}
+
+.commissions-input,
+.commissions-textarea,
+.commissions-file-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.commissions-textarea {
+  min-height: 100px;
+}
+
+.commissions-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #FFE6C1;
+  color: #FFF;
+  cursor: pointer;
+}
+
+
 /* Media Queries */
 @media (max-width: 800px) {
   html {
@@ -1309,6 +1354,9 @@ input[type="number"] {
     text-align: center;
   }
 
+  .commissions-form {
+    width: 350px;
+  }
 }
 
 @media (min-width: 1400px) {

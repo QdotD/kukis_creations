@@ -19,59 +19,13 @@ const CommissionsPage = () => {
         setFormData((prev) => ({ ...prev, attachment: e.target.files[0] }));
     };
 
-    const styles = {
-        container: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            // justifyContent: 'center',
-            marginTop: "5vh",
-            marginBottom: "15vh",
-            // minHeight: '100vh',
-            // backgroundColor: '#F5F5F5',
-            fontFamily: 'Arial, sans-serif',
-        },
-        form: {
-            display: 'flex',
-            flexDirection: 'column',
-            width: '500px',
-            padding: '20px',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            backgroundColor: '#FFFFFF',
-        },
-        input: {
-            width: '100%',
-            padding: '10px',
-            marginBottom: '10px',
-            borderRadius: '4px',
-            border: '1px solid #e0e0e0',
-        },
-        textarea: {
-            width: '100%',
-            minHeight: '100px',
-            padding: '10px',
-            marginBottom: '10px',
-            borderRadius: '4px',
-            border: '1px solid #e0e0e0',
-        },
-        button: {
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '4px',
-            backgroundColor: '#FFE6C1',
-            color: '#FFF',
-            cursor: 'pointer',
-        }
-    };
-
     return (
-        <div style={styles.container}>
+        <div className="commissions-container">
             <form
                 action="https://getform.io/f/a7b02e0b-baeb-4138-978d-e5f270600052"
                 method="POST"
                 encType="multipart/form-data"
-                style={styles.form}
+                className="commissions-form"
             >
                 <input
                     name="name"
@@ -79,7 +33,7 @@ const CommissionsPage = () => {
                     onChange={handleChange}
                     placeholder="Name"
                     required
-                    style={styles.input}
+                    className="commissions-input"
                 />
                 <input
                     type="email"
@@ -88,7 +42,7 @@ const CommissionsPage = () => {
                     onChange={handleChange}
                     placeholder="Email"
                     required
-                    style={styles.input}
+                    className="commissions-input"
                 />
                 <textarea
                     name="description"
@@ -96,15 +50,15 @@ const CommissionsPage = () => {
                     onChange={handleChange}
                     placeholder="Description of request"
                     required
-                    style={styles.textarea}
+                    className="commissions-textarea"
                 />
                 <input
                     type="file"
                     name="attachment"
                     onChange={handleAttachment}
-                    style={styles.input}
+                    className="commissions-input"
                 />
-                <button type="submit" style={styles.button}>Submit</button>
+                <button type="submit" className="commissions-button">Submit</button>
             </form>
         </div>
     );
