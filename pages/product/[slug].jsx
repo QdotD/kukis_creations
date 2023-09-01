@@ -149,91 +149,113 @@ const ProductDetails = ({ products, product }) => {
           </div>
 
           <div className="product-detail-desc">
+            {/* Section on top that has the price and the reviews */}
+            <div className='price-and-reviews'>
+              <p className="price"><strong>USD ${price}</strong> <em>(plus shipping & tax)</em></p>
+              <div className="reviews">
+              <div>
+                <NoSsr>
+                <AiFillStar />
+                <AiFillStar />
+                <AiFillStar />
+                <AiFillStar />
+                <AiOutlineStar />
+                </NoSsr>
+              </div>
+              <p>(20)</p>
+              </div>
+            </div>
+            
+            {/* Section on bottom that has item details and buttons to buy */}
             <div className='details-and-buy'>
-              <div className='top-details-desc'>
-                <div className='price-and-reviews'>
-                  <p className="price"><strong>USD ${price}</strong> <em>(plus shipping & tax)</em></p>
-                  {/* <div className="reviews">
-                  <div>
-                    <NoSsr>
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiOutlineStar />
-                    </NoSsr>
-                  </div>
-                  <p>(20)</p>
-                </div> */}
+
+              {/* Section to the left that has all text and description of the item  */}
+              <div className='details'>
+
+                <div className='item-details'> 
+                  <h5>Details</h5>
+                  These hand painted earrings showcase two abilities of an agent on each side, 
+                  bringing all four to life. They're comfortable, elegant, and make a perfect gift 
+                  for a Valorant enthusiast or yourself :)
                 </div>
-                <div className='details'>
-                  {/* <h4>Details: </h4> */}
-                  <p>{details}</p>
+
+                <div className= 'materials'>
+                  <h5>Materials</h5>
+                  - Brass, Gold <br /> 
+                  - Plastic
+                </div>
+
+                <div className='shipping'>
+                  <h5>Shipping</h5>
+                  While we're excited to get these special earrings to you quickly, 
+                  they are made to order and crafted meticulously to ensure quality. 
+                  Your order will be ready within 3-5 business days and shipped with care.
                 </div>
 
               </div>
+              
+              {/* Section to the right that has the buttons to add items to cart and declare variant */}
+              <div className='buy'>
+                <div className='variants'> 
+                  <h5>variant title*</h5>
+                  <div className="dropdown">
+                    {/* Trigger for the dropdown */}
+                    <button className="dropdown-toggle">Dropdown</button>
 
-              <div className='bottom-details-desc'>
-                <div className='buy'>
-                  <div className='buy-left'>
-                    <div>
-                      Materials: plastic, acrylic, paint, zinc
-                    </div>
-                    <div>
-                      Weight: 5g
-                    </div>
-                    <div>
-                      Dimensions: 4.2 x 2 x 2 cm
+                    {/* Dropdown content */}
+                    <div className="dropdown-content">
+                      {/* Dropdown items */}
+                      <a href="#">Option 1</a>
+                      <a href="#">Option 2</a>
+                      <a href="#">Option 3</a>
                     </div>
                   </div>
-                  <div className='buy-right'>
-                    <div className="quantity">
-                      <div className="quantity-desc">
-                        <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
-
-                        <input
-                          type="number"
-                          className='input'
-                          value={qty}
-                          onChange={(e) => setQty(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              const newQuantity = parseInt(e.target.value, 10);
-                              if (!isNaN(newQuantity) && newQuantity > 0) {
-                                onAdd(product, newQuantity);
-                                setShowCart(true);
-                              } else {
-                                toast.error("Please enter a valid quantity.");
-                              }
-                            }
-                          }}
-                        />
-
-                        <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
-                      </div>
-                    </div>
-                    <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
-                      onClick={() => {
-                        setButtonClicked(true);
-
-                        let cleanedQuantity = parseInt(qty, 10);
-                        if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
-
-
-                        onAdd(product, qty);  // Use the product from the product listing and the qty from the state
-                        setTimeout(() => {
-                          setButtonClicked(false);
-                          setShowCart(true);
-                        }, 150);
-                      }}
-                    >
-                      Add to Cart
-                    </button>
-
-                  </div>
-
-
                 </div>
+
+                <div className="quantity">
+                  <div className="quantity-desc">
+                    <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
+
+                    <input
+                      type="number"
+                      className='input'
+                      value={qty}
+                      onChange={(e) => setQty(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          const newQuantity = parseInt(e.target.value, 10);
+                          if (!isNaN(newQuantity) && newQuantity > 0) {
+                            onAdd(product, newQuantity);
+                            setShowCart(true);
+                          } else {
+                            toast.error("Please enter a valid quantity.");
+                          }
+                        }
+                      }}
+                    />
+
+                    <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                  </div>
+                </div>
+
+                <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
+                  onClick={() => {
+                    setButtonClicked(true);
+
+                    let cleanedQuantity = parseInt(qty, 10);
+                    if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+
+
+                    onAdd(product, qty);  // Use the product from the product listing and the qty from the state
+                    setTimeout(() => {
+                      setButtonClicked(false);
+                      setShowCart(true);
+                    }, 150);
+                  }}
+                  >
+                  Add to Cart
+                </button>
+
               </div>
             </div>
 

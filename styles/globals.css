@@ -49,27 +49,28 @@ a {
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: 5vw;
-  margin: 4vw 0 0;
+  height: 15vh;
+  margin: 0;
   position: relative;
   background-color: #FFE6C1;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
   padding: 0 5vw;
   z-index: 1;
+  overflow: hidden;
 }
 
 .logo-img {
-  width: 10vw;
-  margin: 0;
-  z-index: 2;
+  width: 8vw;
+  margin: 10px 0 0;
   cursor: pointer;
-  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 100%;
+  z-index: -1;
+  /* box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.15); */
+  border-radius: 100%; 
   padding: 0%;
 }
 
 .title {
-  width: 30vw;
+  width: 25vw;
   cursor: pointer;
 }
 
@@ -96,7 +97,7 @@ a {
 }
 
 .cart-icon {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   color: #4D311B;
   cursor: pointer;
   position: relative;
@@ -112,7 +113,7 @@ a {
 
 .cart-item-qty {
   position: absolute;
-  right: -2px;
+  right: -3px;
   font-size: 0.75rem;
   color: #4D311B;
   background-color: #FFB1B1;
@@ -171,7 +172,7 @@ span.text-red {
 .reviews-container {
   display: flex;
   justify-content: center;
-  gap: 3vw;
+  gap: 4vw;
   margin-bottom: 5vh;
 }
 
@@ -213,8 +214,8 @@ span.text-red {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 200px;
-  height: 225px;
+  width: 275px;
+  height: 275px;
   border-radius: 8px;
   font-size: .65rem;
 }
@@ -227,6 +228,7 @@ span.text-red {
   justify-content: center;
   align-items: center;
   padding-bottom: 5vh;
+  margin-top:-2px;
 }
 
 .maylike-container {
@@ -242,8 +244,6 @@ span.text-red {
   gap: 25px;
   width: 100%;
 }
-
-
 
 .product-card {
   cursor: pointer;
@@ -293,8 +293,7 @@ span.text-red {
 .products-heading,
 .reviews-heading {
   margin: auto;
-  padding-top: 3vh;
-  padding-bottom: 3vh;
+  padding: 3vh 9vw;
   width: 100%;
   color: #4D311B;
   display: flex;
@@ -303,8 +302,11 @@ span.text-red {
   text-align: center;
 }
 
+
 .products-page-heading {
-  width: 90%
+  width: 90%;
+  margin:auto;
+  padding: 15px;
 }
 
 .products-heading h2,
@@ -345,6 +347,7 @@ span.text-red {
   max-width: 1100px;
   margin: auto;
   margin-left: 5vw;
+  margin-bottom: 5vh;
 }
 
 .product-page-card {
@@ -458,7 +461,7 @@ span.text-red {
 
 .carousel-img {
   width: 100%;
-  height: 80vh;
+  height: 82vh;
   object-fit: Cover;
   z-index: 1;
 }
@@ -470,6 +473,28 @@ span.text-red {
   width: 100%;
   overflow: hidden;
 }
+
+.carousel-shop-now-button {
+  width:16vw;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFBCB4;
+  color: white;
+  font-weight: 800;
+  font-size: 1.5rem;
+  text-shadow: -1px -1px 0 #4d311b8a, 1px -1px 0 #4d311b8a, -1px 1px 0 #4d311b8a, 1px 1px 0 #4d311b8a;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+  z-index: 3;
+  position: absolute;
+  bottom: 60px; /* Adjust the distance from the bottom as needed */
+  right:42vw;
+  letter-spacing: 1px;
+}
+
+/* /////////////////////// end ////////////////// */
 
 
 .desc {
@@ -568,8 +593,12 @@ span.text-red {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  bottom:0;
+  width: 100%;
+  height: 10vh;
 }
+
+
 
 .icons {
   display: flex;
@@ -876,34 +905,97 @@ html::-webkit-scrollbar-thumb {
 
 .details-and-buy {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
   height: 100%;
 }
 
+
 .details {
-  display: flex;
+  display: block;
+  flex: 3;
   align-items: center;
+  margin: 10px;
+  height: 80%;
+  font-size: 0.85rem;
+  justify-content: space-evenly;
+}
+
+.item-details, .materials, .shipping {
+  margin: 2vh 0;
 }
 
 .buy {
+  flex: 2;
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.buy-left {
-  font-size: 1rem;
-}
-
-.buy-right {
-  display: flex;
-  align-items: flex-end;
   flex-direction: column;
-  gap: 10px;
-  width: 40%;
-  max-width: 300px;
+  margin: 10px;
+  height: 80%;
 }
+
+
+
+
+/* //////////////// styling for the variant drop down menu in product detail //////////////// */
+
+
+.variants {
+  width: 100%;
+  /* this is to push the other two buttons to the bottom of box, possibly change to flex end if needed */
+  margin: 2vh 0 20vh 0; 
+ }
+
+/* CSS for the dropdown container */
+.dropdown {
+  display: inline-block;
+  width: 100%;
+}
+
+/* CSS for the dropdown trigger button */
+.dropdown-toggle {
+  background-color: #ffffff;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px 15px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+/* CSS for the dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding:5px 15px;
+  width:20%;
+  font-size: 0.8rem;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+/* CSS for the dropdown items */
+.dropdown-content a {
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+  color: #000000;
+}
+
+/* Highlight on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown content when the trigger button is hovered or focused */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* /////////////////// end of dropdown menu//////////////////////// */
 
 .product-detail-heading {
   display: flex;
@@ -945,7 +1037,8 @@ html::-webkit-scrollbar-thumb {
 }
 
 .quantity {
-  width: 100%
+  width: 100%;
+  margin: 2vh 0;
 }
 
 .product-detail-desc .quantity {
@@ -1176,8 +1269,7 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5vh;
-  margin-bottom: 15vh;
+  margin: 10vh 0;
   font-family: Arial, sans-serif;
 }
 
@@ -1185,10 +1277,11 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   width: 600px;
-  padding: 20px;
+  padding: 5vh;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #FFFFFF;
+  height: 55vh;
 }
 
 .commissions-input,
