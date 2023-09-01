@@ -11,7 +11,7 @@ import NoSsr from '../../components/NoSsr';
 import { client, urlFor } from '../../lib/client';
 
 //import BestSellers component
-import { MayLike } from '../../components';
+import { MayLike, ReadMore } from '../../components';
 
 //import global state and functions
 import { useStateContext } from '../../context/StateContext';
@@ -148,98 +148,130 @@ const ProductDetails = ({ products, product }) => {
             </div>
           </div>
 
-          <div className="product-detail-desc">
-            <div className='details-and-buy'>
-              <div className='top-details-desc'>
-                <div className='price-and-reviews'>
-                  <p className="price"><strong>USD ${price}</strong> <em>(plus shipping & tax)</em></p>
-                  {/* <div className="reviews">
-                  <div>
-                    <NoSsr>
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiOutlineStar />
-                    </NoSsr>
-                  </div>
-                  <p>(20)</p>
-                </div> */}
-                </div>
-                <div className='details'>
-                  {/* <h4>Details: </h4> */}
-                  <p>{details}</p>
-                </div>
+          {/* <div className="product-detail-desc"> */}
+          {/* <div className='details-and-buy'> */}
+          <div className='top-details-desc'>
 
+            <div className="price"><strong>USD ${price}</strong></div>
+            <div>
+              <h5>Product Details:</h5>
+              <p>
+                <div>
+                  Materials: plastic, acrylic, paint, zinc
+                </div>
+                <div>
+                  Weight: 5g
+                </div>
+                <div>
+                  Dimensions: 4.2 x 2 x 2 cm
+                </div>
+              </p>
+            </div>
+
+            <div>
+              <h5>Description: </h5>
+              <p>{details}</p>
+            </div>
+
+            <div>
+              <h5>Shipping:</h5>
+              <p>
+                This item ships in 3-5 business days.
+              </p>
+            </div>
+          </div>
+
+
+          <div className='bottom-details-desc'>
+            {/* <div className='buy'> */}
+
+            <div className="reviews">
+              <div>
+                <NoSsr>
+                  <AiFillStar />
+                  <AiFillStar />
+                  <AiFillStar />
+                  <AiFillStar />
+                  <AiOutlineStar />
+                </NoSsr>
               </div>
+              <p>(20)</p>
+            </div>
 
-              <div className='bottom-details-desc'>
-                <div className='buy'>
-                  <div className='buy-left'>
-                    <div>
-                      Materials: plastic, acrylic, paint, zinc
-                    </div>
-                    <div>
-                      Weight: 5g
-                    </div>
-                    <div>
-                      Dimensions: 4.2 x 2 x 2 cm
-                    </div>
-                  </div>
-                  <div className='buy-right'>
-                    <div className="quantity">
-                      <div className="quantity-desc">
-                        <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
+            <div className='variants'>
+              <h5>variant title</h5>
+              <div className="dropdown">
+                {/* Trigger for the dropdown */}
+                <button className="dropdown-toggle">Dropdown</button>
 
-                        <input
-                          type="number"
-                          className='input'
-                          value={qty}
-                          onChange={(e) => setQty(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              const newQuantity = parseInt(e.target.value, 10);
-                              if (!isNaN(newQuantity) && newQuantity > 0) {
-                                onAdd(product, newQuantity);
-                                setShowCart(true);
-                              } else {
-                                toast.error("Please enter a valid quantity.");
-                              }
-                            }
-                          }}
-                        />
-
-                        <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
-                      </div>
-                    </div>
-                    <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
-                      onClick={() => {
-                        setButtonClicked(true);
-
-                        let cleanedQuantity = parseInt(qty, 10);
-                        if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
-
-
-                        onAdd(product, qty);  // Use the product from the product listing and the qty from the state
-                        setTimeout(() => {
-                          setButtonClicked(false);
-                          setShowCart(true);
-                        }, 150);
-                      }}
-                    >
-                      Add to Cart
-                    </button>
-
-                  </div>
-
-
+                {/* Dropdown content */}
+                <div className="dropdown-content">
+                  {/* Dropdown items */}
+                  <a href="#">Option 1</a>
+                  <a href="#">Option 2</a>
+                  <a href="#">Option 3</a>
                 </div>
               </div>
             </div>
 
+            <div className='buy-right'>
+              <div className="quantity">
+                <div className="quantity-desc">
+                  <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
 
+                  <input
+                    type="number"
+                    className='input'
+                    value={qty}
+                    onChange={(e) => setQty(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const newQuantity = parseInt(e.target.value, 10);
+                        if (!isNaN(newQuantity) && newQuantity > 0) {
+                          onAdd(product, newQuantity);
+                          setShowCart(true);
+                        } else {
+                          toast.error("Please enter a valid quantity.");
+                        }
+                      }
+                    }}
+                  />
+
+                  <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                </div>
+              </div>
+
+              <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
+                onClick={() => {
+                  setButtonClicked(true);
+
+                  let cleanedQuantity = parseInt(qty, 10);
+                  if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+
+
+                  onAdd(product, qty);  // Use the product from the product listing and the qty from the state
+                  setTimeout(() => {
+                    setButtonClicked(false);
+                    setShowCart(true);
+                  }, 150);
+                }}
+              >
+                Add to Cart
+              </button>
+
+            </div>
+
+
+            {/* </div> */}
           </div>
+          {/* </div> */}
+
+
+          {/* </div> */}
         </div>
+
+        <ReadMore />
+
       </div>
 
       <MayLike products={products} />
