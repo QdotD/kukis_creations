@@ -10,27 +10,33 @@ export default {
             validation: Rule => Rule.required().error('Image is required.'),
             options: {
                 hotspot: true
-            },
-            fields: [
-                {
-                    name: 'altText',
-                    title: 'Alt Text',
-                    type: 'string',
-                    description: 'Description for accessibility and SEO.',
-                    validation: Rule => Rule.required().error('Alt Text is required.')
-                },
-                {
-                    name: 'title',
-                    type: 'string',
-                    title: 'Image Title',
-                    validation: Rule => Rule.required().error('Image Title is required.')
-                }
-            ]
+            }
+        },
+        {
+            name: 'url',
+            title: 'URL',
+            type: 'string',
+            description: 'example: /product/jiji-keychain',
+            validation: Rule => Rule.required().error('URL is required.')
+        },
+        {
+            name: 'altText',
+            title: 'Alt Text',
+            type: 'string',
+            description: 'Description for accessibility and SEO.',
+            validation: Rule => Rule.required().error('Alt Text is required.')
+        },
+        {
+            name: 'imageTitle',
+            title: 'Image Title',
+            type: 'string',
+            validation: Rule => Rule.required().error('Image Title is required.')
         }
+
     ],
     preview: {
         select: {
-            title: 'image.title',  // Preview the title of the image
+            title: 'imageTitle',  // Preview the title of the image
             media: 'image.asset',  // Preview the actual image
         },
     },

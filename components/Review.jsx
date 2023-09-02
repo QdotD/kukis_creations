@@ -30,6 +30,7 @@ const SingleReview = ({ review }) => {
 
 // Main Review Component to handle collection of reviews
 const Review = ({ reviews }) => {
+
     return (
         <div>
             <div className="products-heading">

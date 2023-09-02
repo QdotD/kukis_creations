@@ -36,12 +36,14 @@ export default {
             name: 'nameShort',
             title: 'Name Short',
             type: 'string',
+            description: 'For most places where the product name appears.',
             validation: Rule => Rule.required().error('Product Name Short is required.')
         },
         {
             name: 'nameLong',
             title: 'Name Long',
             type: 'string',
+            description: 'For the product page name specifically.',
             validation: Rule => Rule.required().error('Product Name Long is required.')
         },
         {
@@ -91,8 +93,14 @@ export default {
         {
             name: 'details',
             title: 'Details',
-            type: 'string',
+            type: 'text',
             validation: Rule => Rule.required().error('Product Details are required.')
+        },
+        {
+            name: 'readMore',
+            title: 'Read More',
+            type: 'text',
+            description: 'Additional details about the product. Supports multiple lines.'
         },
         {
             name: 'productCategory',
@@ -107,6 +115,21 @@ export default {
                 ],
             },
             validation: Rule => Rule.required().error('Product Category is required.')
+        },
+        {
+            name: 'reviewStars',
+            title: 'Review Stars',
+            type: 'number',
+            validation: Rule => Rule
+                .optional()
+                .min(1, 'Review Stars must be an integer between 1 and 5.')
+                .max(5, 'Review Stars must be an integer between 1 and 5.')
+                .integer('Review Stars must be an integer between 1 and 5.')
+        },
+        {
+            name: 'numOfReviews',
+            title: 'Number of Product Reviews',
+            type: 'number'
         },
         {
             name: 'isBestSeller',

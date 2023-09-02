@@ -20,7 +20,7 @@ import toast from 'react-hot-toast';
 
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
-  const { nameLong, details, price } = product;
+  const { nameLong, details, price, readMore, reviewStars, numOfReviews } = product;
 
   const [productImages, setProductImages] = useState(product.images);
 
@@ -100,18 +100,19 @@ const ProductDetails = ({ products, product }) => {
 
           <div className='bottom-details-desc'>
             <div className='reviews-and-variants'>
-              <div className="reviews">
-                <div>
-                  <NoSsr>
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiOutlineStar />
-                  </NoSsr>
+
+              {reviewStars && numOfReviews ?
+                <div className="reviews">
+                  <div>
+                    <NoSsr>
+                      {[...Array(5)].map((_, index) =>
+                        index < reviewStars ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
+                      )}
+                    </NoSsr>
+                  </div>
+                  <p>({numOfReviews})</p>
                 </div>
-                <p>(20)</p>
-              </div>
+                : null}
 
               {product.variants && product.variants.length > 0 && (
                 <div className='variants'>
@@ -187,7 +188,7 @@ const ProductDetails = ({ products, product }) => {
           </div>
         </div>
 
-        <ReadMore />
+        {readMore ? <ReadMore readMore={readMore} /> : null}
 
       </div>
 

@@ -7,6 +7,8 @@ import { urlFor } from '../lib/client';
 
 const Carousel = ({ carousel }) => {
 
+  console.log(carousel)
+
   const settings = {
     dots: true,
     infinite: true,
@@ -22,17 +24,17 @@ const Carousel = ({ carousel }) => {
   return (
     <div className='carousel-banner'>
       <Slider {...settings}>
-        <video controls autoPlay muted loop className="carousel-img">
+        {/* <video controls autoPlay muted loop className="carousel-img">
           <source src="/jettVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
-        </video>
+        </video> */}
         {carousel.map((item, index) => (
-          <div key={index}>
+          <a href={item.url} key={index}>
             <img src={urlFor(item.image)} alt={item.altText} className="carousel-img" />
-          </div>
+          </a>
         ))}
       </Slider>
-      <div className="carousel-shop-now-button"> SHOP NOW </div>
+      {/* <div className="carousel-shop-now-button"> SHOP NOW </div> */}
 
     </div>
 

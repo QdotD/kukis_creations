@@ -826,7 +826,7 @@ span.text-red {
 
 .read-more-toggle {
   text-align: center;
-  padding: 10px 0;
+  padding: 5vh 0 1vh;
   cursor: pointer;
   color: #FFB1B1;
 }
