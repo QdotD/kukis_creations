@@ -28,8 +28,8 @@ const ProductsPageItem = ({ products }) => {
             {productCategories.map(category => (
                 categorizedProducts[category] && (
                     <div key={category}>
-                        <div className="products-heading products-page-heading">
-                            <h2>{category}</h2>
+                        <div className="product-detail-heading products-page-heading">
+                            <h1>{category}</h1>
                             <div className="horizontal-bar"></div>
                         </div>
                         <div className="products-page-container">

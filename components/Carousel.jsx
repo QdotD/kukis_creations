@@ -32,6 +32,8 @@ const Carousel = ({ carousel }) => {
           </div>
         ))}
       </Slider>
+      <div className="carousel-shop-now-button"> SHOP NOW </div>
+
     </div>
 
   );
