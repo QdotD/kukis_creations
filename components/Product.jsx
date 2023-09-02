@@ -6,7 +6,7 @@ import { urlFor } from '../lib/client';
 //import global state and functions
 import { useStateContext } from '../context/StateContext';
 
-const Product = ({ product: { images, name, slug, price } }) => {
+const Product = ({ product: { images, nameShort, slug, price } }) => {
   const { setQty } = useStateContext();
 
   return (
@@ -18,7 +18,7 @@ const Product = ({ product: { images, name, slug, price } }) => {
             className="product-image"
             onClick={() => setQty(1)}
             alt="product image" />
-            <p className="product-name">{name}</p>
+            <p className="product-name">{nameShort}</p>
             <p className="product-price">${price}</p>
         </div>
       </Link>

@@ -1024,13 +1024,11 @@ html::-webkit-scrollbar-thumb {
 
 .product-detail-heading {
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .product-detail-heading h1 {
   font-weight: 400;
-  margin: 1vw;
+  padding-bottom: 1vh;
   color: #4D311B;
 }
 

@@ -20,7 +20,7 @@ import toast from 'react-hot-toast';
 
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
-  const { name, details, price } = product;
+  const { nameLong, details, price } = product;
 
   const [productImages, setProductImages] = useState(product.images);
 
@@ -60,8 +60,7 @@ const ProductDetails = ({ products, product }) => {
     <div>
       <div className='product-detail-container'>
         <div className='product-detail-heading'>
-          <h1>{name}</h1>
-          <div className="horizontal-bar"></div>
+          <h1>{nameLong}</h1>
         </div>
         <div className='product-detail-subcontainer'>
 

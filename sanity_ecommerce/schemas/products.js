@@ -33,10 +33,16 @@ export default {
     type: 'document',
     fields: [
         {
-            name: 'name',
-            title: 'Name',
+            name: 'nameShort',
+            title: 'Name Short',
             type: 'string',
-            validation: Rule => Rule.required().error('Product Name is required.')
+            validation: Rule => Rule.required().error('Product Name Short is required.')
+        },
+        {
+            name: 'nameLong',
+            title: 'Name Long',
+            type: 'string',
+            validation: Rule => Rule.required().error('Product Name Long is required.')
         },
         {
             name: 'images',

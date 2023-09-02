@@ -1,10 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { urlFor } from '../lib/client.js';
 
-const ProductImages = ({ product, productImages, index, setIndex }) => {
-
-    const { images } = product;
+const ProductImages = ({ productImages, index, setIndex }) => {
 
     const imageRefs = useRef([]);
 
