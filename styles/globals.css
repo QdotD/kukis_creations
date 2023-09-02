@@ -921,6 +921,12 @@ html::-webkit-scrollbar-thumb {
   justify-content: space-between;
 }
 
+.reviews-and-variants {
+  display: flex;
+  flex-direction: column;
+  gap: 15px
+}
+
 .buy-right {
   display: flex;
   align-items: flex-end;

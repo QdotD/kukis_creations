@@ -1,11 +1,46 @@
+const productVariant = {
+    name: 'productVariant',
+    title: 'Product Variant',
+    type: 'object',
+    fields: [
+        {
+            name: 'variantName',
+            title: 'Variant Name',
+            type: 'string',
+            validation: Rule => Rule.required().error('Variant Name is required.')
+        },
+        {
+            name: 'variantImages',
+            title: 'Variant Images',
+            type: 'array',
+            of: [{ type: 'image' }],
+            options: {
+                hotspot: true,
+            }
+        }
+    ],
+    preview: {
+        select: {
+            title: 'variantName',
+            media: 'variantImages.0.asset',
+        },
+    },
+}
+
 export default {
     name: 'products',
     title: 'Products',
     type: 'document',
     fields: [
         {
-            name: 'image',
-            title: 'Image',
+            name: 'name',
+            title: 'Name',
+            type: 'string',
+            validation: Rule => Rule.required().error('Product Name is required.')
+        },
+        {
+            name: 'images',
+            title: 'Images',
             type: 'array',
             of: [{ type: 'image' }],
             options: {
@@ -14,10 +49,22 @@ export default {
             validation: Rule => Rule.required().error('At least one image is required.')
         },
         {
-            name: 'name',
-            title: 'Name',
-            type: 'string',
-            validation: Rule => Rule.required().error('Product Name is required.')
+            name: 'variantTitle',
+            title: 'Variant Title (if necessary)',
+            type: 'string'
+        },
+        {
+            name: 'variants',
+            title: 'Variants (if necessary)',
+            type: 'array',
+            of: [productVariant]
+        },
+        {
+            name: 'showVariantImagesFirst',
+            title: 'Show Variant Images First (if necessary)',
+            type: 'boolean',
+            description: 'Toggle ON to show variant images before product images. Toggle OFF to show product images first.',
+            initialValue: false
         },
         {
             name: 'slug',

@@ -1,5 +1,5 @@
 //dynamic product details component
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //import icons
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
@@ -8,10 +8,10 @@ import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-
 import NoSsr from '../../components/NoSsr';
 
 //import stuff from sanity client
-import { client, urlFor } from '../../lib/client';
+import { client } from '../../lib/client.js';
 
 //import BestSellers component
-import { MayLike, ReadMore } from '../../components';
+import { MayLike, ReadMore, ProductImages } from '../../components';
 
 //import global state and functions
 import { useStateContext } from '../../context/StateContext';
@@ -20,76 +20,41 @@ import toast from 'react-hot-toast';
 
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
-  const { image, name, details, price } = product;
+  const { name, details, price } = product;
+
+  const [productImages, setProductImages] = useState(product.images);
+
   const [index, setIndex] = useState(0);
+
+  const defaultVariantName = product.variants && product.variants.length > 0 ? "Select an option:" : "";
+
+  const [selectedVariantName, setSelectedVariantName] = useState(defaultVariantName);
+
+  useEffect(() => {
+    if (product.variants) {
+      setSelectedVariantName("Select an option:");
+      // setProductImages([...product.images, ...product.variants[0].variantImages]);
+    }
+  }, []); // Empty dependency array ensures this useEffect runs only once after the initial render.
+
+  // console.log(product);
+
   const [buttonClicked, setButtonClicked] = useState(false);
   // lets us use these functions here in our code
   const { decQty, incQty, qty, setQty, onAdd, setShowCart } = useStateContext();
 
-  // const handleBuyNow = () => {
-  //   onAdd(product, qty);
-
-  //   setShowCart(true);
-  // }
-
-  const imageRefs = useRef([]);
-
-  const handleNext = () => {
-    const imageEl = document.querySelector('.product-detail-image');
-    imageEl.classList.add('fade-out');
-
-    setTimeout(() => {
-      // Increase your image index or however you change your image
-      setIndex((index + 1) % image.length);
-
-      // Refresh image source
-      imageEl.src = urlFor(image && image[index]);
-
-      // Remove fade-out class after image source has been updated
-      imageEl.classList.remove('fade-out');
-    }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
-  };
-
-  const handlePrev = () => {
-    const imageEl = document.querySelector('.product-detail-image');
-    imageEl.classList.add('fade-out');
-
-    setTimeout(() => {
-      // Decrease your image index or however you change your image
-      setIndex((index - 1 + image.length) % image.length);
-
-      // Refresh image source
-      imageEl.src = urlFor(image && image[index]);
-
-      // Remove fade-out class after image source has been updated
-      imageEl.classList.remove('fade-out');
-    }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
-  };
-
-
-  let startX; // Where the touch starts
-  let distance; // Distance swiped
-
-  const startSwipe = (e) => {
-    startX = e.touches[0].clientX;
-  };
-
-  const moveSwipe = (e) => {
-    if (!startX) return;
-    const x = e.touches[0].clientX;
-    distance = startX - x;
-  };
-
-  const endSwipe = () => {
-    if (distance > 100) {
-      handleNext();
-    } else if (distance < -100) {
-      handlePrev();
+  const updateDropdown = (variant) => {
+    if (variant == "default") {
+      setSelectedVariantName("Select an option:");
+      setProductImages([...product.images]);
+      setIndex(0);
+    } else {
+      setSelectedVariantName(variant.variantName);
+      setProductImages([...product.images, ...variant.variantImages]);
+      const indexValue = product.images.length;
+      setIndex(indexValue);
     }
-    startX = null;
-    distance = null;
-  };
-
+  }
 
   return (
     <div>
@@ -99,57 +64,9 @@ const ProductDetails = ({ products, product }) => {
           <div className="horizontal-bar"></div>
         </div>
         <div className='product-detail-subcontainer'>
-          <div className='all-images-container'>
-            <div className='image-container' onTouchStart={startSwipe} onTouchMove={moveSwipe} onTouchEnd={endSwipe}>
-              {/* Left Arrow */}
-              <button onClick={handlePrev} className="arrow-button arrow-left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" className="flipped-svg arrow-svg">
-                  <path d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM8.711,4.3l5.7,5.766L8.7,15.711,7.3,14.289l4.289-4.242L7.289,5.7Z" />
-                </svg>
-              </button>
 
-              <div className="product-image-container">
-                <img src={urlFor(image && image[index])} className="product-detail-image" />
+          <ProductImages product={product} productImages={productImages} index={index} setIndex={setIndex} />
 
-                {/* Text overlay */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  right: '10px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
-                  padding: '5px 10px',
-                  borderRadius: '5px'
-                }}>
-                  {index + 1}/{image?.length}
-                </div>
-              </div>
-
-
-              {/* Right Arrow */}
-              <button onClick={handleNext} className="arrow-button arrow-right">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" className="arrow-svg">
-                  <path d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM8.711,4.3l5.7,5.766L8.7,15.711,7.3,14.289l4.289-4.242L7.289,5.7Z" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Small Images */}
-            <div className="small-images-container">
-              {image?.map((item, i) => (
-                <img
-                  key={i}
-                  ref={el => imageRefs.current[i] = el}
-                  src={urlFor(item)}
-                  className={i === index ? 'small-image selected-image' : 'small-image'}
-                  onMouseEnter={() => setIndex(i)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* <div className="product-detail-desc"> */}
-          {/* <div className='details-and-buy'> */}
           <div className='top-details-desc'>
 
             <div className="price"><strong>USD ${price}</strong></div>
@@ -183,35 +100,43 @@ const ProductDetails = ({ products, product }) => {
 
 
           <div className='bottom-details-desc'>
-            {/* <div className='buy'> */}
-
-            <div className="reviews">
-              <div>
-                <NoSsr>
-                  <AiFillStar />
-                  <AiFillStar />
-                  <AiFillStar />
-                  <AiFillStar />
-                  <AiOutlineStar />
-                </NoSsr>
-              </div>
-              <p>(20)</p>
-            </div>
-
-            <div className='variants'>
-              <h5>variant title</h5>
-              <div className="dropdown">
-                {/* Trigger for the dropdown */}
-                <button className="dropdown-toggle">Dropdown</button>
-
-                {/* Dropdown content */}
-                <div className="dropdown-content">
-                  {/* Dropdown items */}
-                  <a href="#">Option 1</a>
-                  <a href="#">Option 2</a>
-                  <a href="#">Option 3</a>
+            <div className='reviews-and-variants'>
+              <div className="reviews">
+                <div>
+                  <NoSsr>
+                    <AiFillStar />
+                    <AiFillStar />
+                    <AiFillStar />
+                    <AiFillStar />
+                    <AiOutlineStar />
+                  </NoSsr>
                 </div>
+                <p>(20)</p>
               </div>
+
+              {product.variants && product.variants.length > 0 && (
+                <div className='variants'>
+                  <h5>{product.variantTitle}</h5>
+                  <div className="dropdown">
+                    {/* Trigger for the dropdown */}
+                    <button className="dropdown-toggle">{selectedVariantName}</button>
+
+                    {/* Dropdown content */}
+                    <div className="dropdown-content">
+                      {/* Dropdown items */}
+                      <a onClick={() => updateDropdown("default")}>
+                        Select an option:
+                      </a>
+                      {product.variants.map((variant, index) => (
+                        <a key={index} onClick={() => updateDropdown(variant)}>
+                          {variant.variantName}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
             </div>
 
             <div className='buy-right'>
@@ -260,14 +185,7 @@ const ProductDetails = ({ products, product }) => {
               </button>
 
             </div>
-
-
-            {/* </div> */}
           </div>
-          {/* </div> */}
-
-
-          {/* </div> */}
         </div>
 
         <ReadMore />
@@ -307,20 +225,34 @@ export const getStaticPaths = async () => {
 
 // getStaticProps (special nextjs function) check nextjs docs for more info, allows you to go to other pages without reloading because we already have the data rendered
 export const getStaticProps = async ({ params: { slug } }) => {
-  // lets us grab all the product details of the product page we are on
-  const query = `*[_type == "products" && slug.current == '${slug}'][0]`;
+  try {
+    // Parameterized query for safety.
+    const query = `*[_type == "products" && slug.current == $slug]`;
+    const results = await client.fetch(query, { slug });
+    const product = results[0];
 
-  // fetch all similar products
-  const productsQuery = `*[_type == "products"]`;
+    // fetch all similar products
+    const productsQuery = `*[_type == "products"]`;
+    const products = await client.fetch(productsQuery);
 
-  // grabs the individual product
-  const product = await client.fetch(query);
-  const products = await client.fetch(productsQuery);
+    if (!product) {
+      // This will return a 404 page if product is not found
+      return {
+        notFound: true,
+      };
+    }
 
-  console.log(product);
+    return {
+      props: { products, product }
+    };
 
-  return {
-    props: { products, product }
+  } catch (error) {
+    console.error("Error fetching the data:", error);
+
+    // Returning an error status or you could return fallback data or show a specific error page.
+    return {
+      notFound: true,
+    };
   }
 }
 

@@ -10,3 +10,4 @@ export { default as Review} from './Review';
 export { default as BestSellers} from './BestSellers';
 export { default as MayLike} from './MayLike';
 export { default as ReadMore} from './ReadMore';
+export { default as ProductImages} from './ProductImages';
