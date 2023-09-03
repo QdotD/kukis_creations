@@ -7,8 +7,6 @@ import { urlFor } from '../lib/client';
 
 const Carousel = ({ carousel }) => {
 
-  console.log(carousel)
-
   const settings = {
     dots: true,
     infinite: true,

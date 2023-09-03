@@ -17,7 +17,6 @@ const Cart = () => {
   // state context
   const { totalPrice, totalQuantities, cartItems, setShowCart, onRemove, onAdd, localQuantities, setLocalQuantities } = useStateContext();
 
-  console.log(cartItems)
   // function sends product data from cart to stripe
   const handleCheckout = async () => {
     const stripe = await getStripe();
