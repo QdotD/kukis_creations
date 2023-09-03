@@ -21,22 +21,38 @@ const Cart = () => {
   const handleCheckout = async () => {
     const stripe = await getStripe();
 
-    const response = await fetch('/api/stripe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cartItems),
-    });
+    try {
+      const response = await fetch('/api/stripe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItems),
+      });
 
-    if (response.statusCode === 500) return;
+      if (!response.ok) {
+        console.error('Server response:', await response.text());  // Log the server response if it's not in the 200-299 range
+        toast.error('Error processing checkout.');
+        return;
+      }
 
-    const data = await response.json();
+      const data = await response.json();
 
-    toast.loading('Redirecting...');
+      if (!data.id) {
+        console.error('Received malformed response:', data);
+        toast.error('Error processing checkout.');
+        return;
+      }
 
-    stripe.redirectToCheckout({ sessionId: data.id })
+      toast.loading('Redirecting...');
+      stripe.redirectToCheckout({ sessionId: data.id });
+
+    } catch (err) {
+      console.error('Error during checkout:', err.message);
+      toast.error('Error processing checkout.');
+    }
   }
+
 
   const calculateTotal = (price, quantity) => {
     const total = price * quantity;
@@ -79,7 +95,7 @@ const Cart = () => {
               <img src={urlFor(item?.images[0])} className="cart-product-image" />
               <div className="item-desc">
                 <div className="flex top">
-                  <h5>{item.name}</h5>
+                  <h5>{item.nameShort}</h5>
                 </div>
                 <div className="flex bottom">
                   <div className="quantity">

@@ -22,7 +22,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    console.log(req.body);
+    console.log(req);
 
     try {
       // declare params
@@ -35,16 +35,16 @@ export default async function handler(req, res) {
           { shipping_rate: 'shr_1LtxbWGiRNSwDDoZxdMCV5RE' }
         ],
         line_items: req.body.map((item) => {
-          const img = item.image[0].asset._ref;
+          const img = item.images[0].asset._ref;
           const newImage = img.replace('image-', 'https://cdn.sanity.io/images/izde7eb5/production/').replace('-webp', '.webp');
 
           console.log('IMAGE: ', newImage);
-
+          console.log('item: ', item)
           return {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: item.name,
+                name: item.nameShort,
                 images: [newImage],
               },
               unit_amount: item.price * 100,

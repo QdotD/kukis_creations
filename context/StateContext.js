@@ -144,7 +144,7 @@ export const StateContext = ({ children }) => {
 		setLocalQuantities(cleanedQuantity);
 
 		// success toast message
-		toast.success(`${cleanedQuantity} ${product.name} added to the cart.`);
+		toast.success(`${cleanedQuantity} ${product.nameShort} added to the cart.`);
 	};
 
 	const onRemove = (product) => {
@@ -162,7 +162,7 @@ export const StateContext = ({ children }) => {
 		updateTotalQuantities();
 
 		// success toast message
-		toast.error(`${product.name} removed from the cart.`);
+		toast.error(`${product.nameShort} removed from the cart.`);
 	};
 
 
@@ -177,7 +177,7 @@ export const StateContext = ({ children }) => {
 
 		const updatedCartItems = cartItems.map((cartProduct) => {
 			if (cartProduct._id === product._id) {
-				toast.success(`${cartProduct.name} updated to ${quantity}.`);
+				toast.success(`${cartProduct.nameShort} updated to ${quantity}.`);
 				return {
 					...cartProduct,
 					quantity: quantity
