@@ -173,39 +173,6 @@ export const StateContext = ({ children }) => {
 		toast.error(`${product.nameShort} - ${product.selectedVariantName} removed from the cart.`);
 	};
 
-	const handleQuantityChange = (newQuantity, product, selectedVariantName) => {
-		if (!product || !product._id) {
-			console.error("Invalid or missing product:", product);
-			return;
-		}
-
-		const quantity = parseInt(newQuantity, 10);
-		if (isNaN(quantity) || quantity <= 0) return;
-
-		const updatedCartItems = cartItems.map((cartProduct) => {
-			// Modify only the product with matching _id and selectedVariantName
-			if (cartProduct._id === product._id && cartProduct.selectedVariantName === selectedVariantName) {
-				toast.success(`${cartProduct.nameShort} - ${selectedVariantName} updated to ${quantity}.`);
-				return {
-					...cartProduct,
-					quantity: quantity,
-					selectedVariantName: selectedVariantName
-				};
-			}
-			return cartProduct;
-		});
-
-		setCartItems(updatedCartItems);
-		setCartItemsToSession(updatedCartItems);
-
-		updateTotalPrice();
-		updateTotalQuantities();
-		setLocalQuantities(quantity);
-	};
-
-
-
-
 	const updateTotalPrice = () => {
 		const newTotalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 		setTotalPrice(newTotalPrice);
@@ -266,7 +233,6 @@ export const StateContext = ({ children }) => {
 				setCartItems,
 				setTotalPrice,
 				setTotalQuantities,
-				handleQuantityChange,
 				localQuantities,
 				setLocalQuantities
 			}}

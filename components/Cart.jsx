@@ -15,7 +15,7 @@ const Cart = () => {
   const cartRef = useRef();
   const inputRef = useRef();
   // state context
-  const { totalPrice, totalQuantities, cartItems, setShowCart, onRemove, onAdd, handleQuantityChange, localQuantities, setLocalQuantities } = useStateContext();
+  const { totalPrice, totalQuantities, cartItems, setShowCart, onRemove, onAdd, localQuantities, setLocalQuantities } = useStateContext();
 
   // function sends product data from cart to stripe
   const handleCheckout = async () => {
@@ -127,12 +127,12 @@ const Cart = () => {
                         }}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
-                            handleQuantityChange(localQuantities[item._id] || item.quantity, item);
+                            onAdd(item, localQuantities[item._id], item.selectedVariantName);
                           }
                         }}
                         min="1"
                       />
-                      <button className="plus" onClick={() => { onAdd(item); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                      <button className="plus" onClick={() => { onAdd(item, localQuantities[item._id], item.selectedVariantName); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
                     </div>
                   </div>
                   <h4>
