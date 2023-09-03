@@ -79,7 +79,7 @@ export default {
             title: 'Slug',
             type: 'slug',
             options: {
-                source: 'name',
+                source: 'nameShort',
                 maxLength: 90,
             },
             validation: Rule => Rule.required().error('Slug is required.')
