@@ -22,7 +22,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    console.log(req);
 
     try {
       // declare params
@@ -38,22 +37,39 @@ export default async function handler(req, res) {
           const img = item.images[0].asset._ref;
           const newImage = img.replace('image-', 'https://cdn.sanity.io/images/izde7eb5/production/').replace('-webp', '.webp');
 
-          console.log('IMAGE: ', newImage);
-          console.log('item: ', item)
-          return {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: item.nameShort,
-                images: [newImage],
+
+          if (item.variants) {
+            return {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: item.nameShort + ' - ' + item.selectedVariantName,
+                  images: [newImage],
+                },
+                unit_amount: Math.round(item.price * 100),
               },
-              unit_amount: item.price * 100,
-            },
-            adjustable_quantity: {
-              enabled: true,
-              minimum: 1,
-            },
-            quantity: item.quantity,
+              adjustable_quantity: {
+                enabled: true,
+                minimum: 1,
+              },
+              quantity: item.quantity,
+            }
+          } else {
+            return {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: item.nameShort,
+                  images: [newImage],
+                },
+                unit_amount: Math.round(item.price * 100),
+              },
+              adjustable_quantity: {
+                enabled: true,
+                minimum: 1,
+              },
+              quantity: item.quantity,
+            }
           }
         }),
         success_url: `${req.headers.origin}/success`,
@@ -64,6 +80,7 @@ export default async function handler(req, res) {
 
       res.status(200).json(session);
     } catch (err) {
+      console.log("Stripe Error:", err);
       res.status(err.statusCode || 500).json(err.message);
     }
   } else {

@@ -17,11 +17,11 @@ const Cart = () => {
   // state context
   const { totalPrice, totalQuantities, cartItems, setShowCart, onRemove, onAdd, localQuantities, setLocalQuantities } = useStateContext();
 
+  console.log(cartItems)
   // function sends product data from cart to stripe
   const handleCheckout = async () => {
     const stripe = await getStripe();
 
-    console.log(cartItems)
 
     try {
       const response = await fetch('/api/stripe', {
@@ -129,7 +129,7 @@ const Cart = () => {
                         }}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
-                            onAdd(item, localQuantities[item._id], item.selectedVariantName);
+                            onAdd(item, localQuantities[item._id], item.selectedVariantName, true);
                           }
                         }}
                         min="1"

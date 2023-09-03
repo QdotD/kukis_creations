@@ -177,7 +177,7 @@
                     if (selectedVariantName == "Select an option:") {
                       toast.error("Please select an option.");
                     } else {
-                      onAdd(product, qty, selectedVariantName);  // Use the product from the product listing and the qty from the state
+                      onAdd(product, qty, selectedVariantName);
                       setShowCart(true);
                     }
                     setTimeout(() => {

@@ -96,7 +96,7 @@ export const StateContext = ({ children }) => {
 
 
 
-	const onAdd = (product, quantity, selectedVariantName) => {
+	const onAdd = (product, quantity, selectedVariantName, updateFlag) => {
 		if (!product || !product._id) {
 			console.error("Invalid product at start of onAdd:", product);
 			return;
@@ -107,6 +107,7 @@ export const StateContext = ({ children }) => {
 
 		// Parse and clean up quantity
 		let cleanedQuantity = parseInt(quantity, 10);
+
 		if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
 
 		const existingCartItem = cartItems.find(item => item._id === product._id && item.selectedVariantName === selectedVariantName);
@@ -114,13 +115,23 @@ export const StateContext = ({ children }) => {
 		if (existingCartItem) {
 			const updatedCartItems = cartItems.map((cartProduct) => {
 				if (cartProduct._id === product._id && cartProduct.selectedVariantName === selectedVariantName) {
-					return {
-						...cartProduct,
-						quantity: cartProduct.quantity + cleanedQuantity,
-						timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now(),
-						selectedVariantName: selectedVariantName,
-						uniqueId: uuidv4()
-					};
+					if (updateFlag) {
+						return {
+							...cartProduct,
+							quantity: cleanedQuantity,
+							timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now(),
+							selectedVariantName: selectedVariantName,
+							uniqueId: uuidv4()
+						};
+					} else {
+						return {
+							...cartProduct,
+							quantity: cartProduct.quantity + cleanedQuantity,
+							timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now(),
+							selectedVariantName: selectedVariantName,
+							uniqueId: uuidv4()
+						};
+					}
 				}
 				return cartProduct;
 			});
@@ -149,7 +160,11 @@ export const StateContext = ({ children }) => {
 		setLocalQuantities(cleanedQuantity);
 
 		// success toast message
-		toast.success(`${cleanedQuantity} ${product.nameShort} - ${product.selectedVariantName} added to the cart.`);
+		if (product.selectedVariantName) {
+			toast.success(`${cleanedQuantity} ${product.nameShort} - ${product.selectedVariantName} added to the cart.`);
+		} else {
+			toast.success(`${cleanedQuantity} ${product.nameShort} added to the cart.`);
+		}
 	};
 
 	const onRemove = (productUniqueId, product) => {
