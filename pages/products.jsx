@@ -14,8 +14,6 @@ const ProductsPageItem = ({ products }) => {
         categorizedProducts[categoryName].push(product);
     }
 
-    console.log('categorizedProducts', categorizedProducts);
-
     return (
         <div>
             {Object.entries(categorizedProducts).map(([categoryName, categoryProducts]) => (

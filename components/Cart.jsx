@@ -21,6 +21,8 @@ const Cart = () => {
   const handleCheckout = async () => {
     const stripe = await getStripe();
 
+    console.log(cartItems)
+
     try {
       const response = await fetch('/api/stripe', {
         method: 'POST',
@@ -95,7 +97,7 @@ const Cart = () => {
               <img src={urlFor(item?.images[0])} className="cart-product-image" />
               <div className="item-desc">
                 <div className="flex top">
-                  <h5>{item.nameShort + ' - ' + item.selectedVariantName}</h5>
+                  {item.selectedVariantName ? <h5>{item.nameShort} - {item.selectedVariantName}</h5> : <h5>{item.nameShort}</h5>}
                 </div>
                 <div className="flex bottom">
                   <div className="quantity">
