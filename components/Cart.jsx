@@ -95,12 +95,12 @@ const Cart = () => {
               <img src={urlFor(item?.images[0])} className="cart-product-image" />
               <div className="item-desc">
                 <div className="flex top">
-                  <h5>{item.nameShort}</h5>
+                  <h5>{item.nameShort + ' - ' + item.selectedVariantName}</h5>
                 </div>
                 <div className="flex bottom">
                   <div className="quantity">
                     <div className="quantity-desc cart-quantity-btn">
-                      <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item)}>
+                      <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item.uniqueId, item)}>
                         <NoSsr>
                           <TiDeleteOutline />
                         </NoSsr>

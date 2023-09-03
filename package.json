@@ -25,7 +25,8 @@
     "react-icons": "^4.10.1",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
-    "stripe": "^8.209.0"
+    "stripe": "^8.209.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",

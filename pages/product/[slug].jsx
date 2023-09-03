@@ -153,7 +153,7 @@ const ProductDetails = ({ products, product }) => {
                       if (e.key === 'Enter') {
                         const newQuantity = parseInt(e.target.value, 10);
                         if (!isNaN(newQuantity) && newQuantity > 0) {
-                          onAdd(product, newQuantity);
+                          onAdd(product, newQuantity, selectedVariantName);
                           setShowCart(true);
                         } else {
                           toast.error("Please enter a valid quantity.");
@@ -174,7 +174,7 @@ const ProductDetails = ({ products, product }) => {
                   if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
 
 
-                  onAdd(product, qty);  // Use the product from the product listing and the qty from the state
+                  onAdd(product, qty, selectedVariantName);  // Use the product from the product listing and the qty from the state
                   setTimeout(() => {
                     setButtonClicked(false);
                     setShowCart(true);

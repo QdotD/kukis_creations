@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import { v4 as uuidv4 } from 'uuid';
 import { TiArrowForwardOutline } from 'react-icons/ti';
 //component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
 import NoSsr from '../components/NoSsr';
@@ -95,7 +96,7 @@ export const StateContext = ({ children }) => {
 
 
 
-	const onAdd = (product, quantity) => {
+	const onAdd = (product, quantity, selectedVariantName) => {
 		if (!product || !product._id) {
 			console.error("Invalid product at start of onAdd:", product);
 			return;
@@ -108,16 +109,18 @@ export const StateContext = ({ children }) => {
 		let cleanedQuantity = parseInt(quantity, 10);
 		if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
 
-		const checkProductInCart = cartItems.find((item) => item._id === product._id);
+		const existingCartItem = cartItems.find(item => item._id === product._id && item.selectedVariantName === selectedVariantName);
 
-		if (checkProductInCart) {
+		if (existingCartItem) {
 			const updatedCartItems = cartItems.map((cartProduct) => {
-				if (cartProduct._id === product._id) {
+				if (cartProduct._id === product._id && cartProduct.selectedVariantName === selectedVariantName) {
 					return {
 						...cartProduct,
 						quantity: cartProduct.quantity + cleanedQuantity,
-						timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now()
-					}
+						timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now(),
+						selectedVariantName: selectedVariantName,
+						uniqueId: uuidv4()
+					};
 				}
 				return cartProduct;
 			});
@@ -127,6 +130,8 @@ export const StateContext = ({ children }) => {
 			setCartItemsToSession(updatedCartItems);
 		} else {
 			product.quantity = cleanedQuantity;
+			product.selectedVariantName = selectedVariantName;
+			product.uniqueId = uuidv4();
 			if (!product.timeAddedToCart) {
 				product.timeAddedToCart = Date.now();
 			}
@@ -144,29 +149,31 @@ export const StateContext = ({ children }) => {
 		setLocalQuantities(cleanedQuantity);
 
 		// success toast message
-		toast.success(`${cleanedQuantity} ${product.nameShort} added to the cart.`);
+		toast.success(`${cleanedQuantity} ${product.nameShort} - ${product.selectedVariantName} added to the cart.`);
 	};
 
-	const onRemove = (product) => {
+	const onRemove = (productUniqueId, product) => {
 		// Get cart items from sessionStorage
 		let cartItems = getCartItemsFromSession();
 
-		const newCartItems = cartItems.filter((item) => item._id !== product._id);
+		// Filtering based on both _id and the selected variant name
+		console.log("Before Removal:", cartItems);
+		const newCartItems = cartItems.filter((item) => item.uniqueId !== productUniqueId);
+		console.log("After Removal:", newCartItems);
 
 		// Update cart in state and sessionStorage
 		setCartItems(newCartItems);
 		setCartItemsToSession(newCartItems);
 
-		// update total values - Note: you might consider moving this logic to a useEffect that watches cartItems
+		// update total values
 		updateTotalPrice();
 		updateTotalQuantities();
 
 		// success toast message
-		toast.error(`${product.nameShort} removed from the cart.`);
+		toast.error(`${product.nameShort} - ${product.selectedVariantName} removed from the cart.`);
 	};
 
-
-	const handleQuantityChange = (newQuantity, product) => {
+	const handleQuantityChange = (newQuantity, product, selectedVariantName) => {
 		if (!product || !product._id) {
 			console.error("Invalid or missing product:", product);
 			return;
@@ -176,14 +183,15 @@ export const StateContext = ({ children }) => {
 		if (isNaN(quantity) || quantity <= 0) return;
 
 		const updatedCartItems = cartItems.map((cartProduct) => {
-			if (cartProduct._id === product._id) {
-				toast.success(`${cartProduct.nameShort} updated to ${quantity}.`);
+			// Modify only the product with matching _id and selectedVariantName
+			if (cartProduct._id === product._id && cartProduct.selectedVariantName === selectedVariantName) {
+				toast.success(`${cartProduct.nameShort} - ${selectedVariantName} updated to ${quantity}.`);
 				return {
 					...cartProduct,
-					quantity: quantity
+					quantity: quantity,
+					selectedVariantName: selectedVariantName
 				};
 			}
-
 			return cartProduct;
 		});
 
@@ -194,6 +202,8 @@ export const StateContext = ({ children }) => {
 		updateTotalQuantities();
 		setLocalQuantities(quantity);
 	};
+
+
 
 
 	const updateTotalPrice = () => {
@@ -258,7 +268,7 @@ export const StateContext = ({ children }) => {
 				setTotalQuantities,
 				handleQuantityChange,
 				localQuantities,
-				setLocalQuantities,
+				setLocalQuantities
 			}}
 		>
 			{children}
