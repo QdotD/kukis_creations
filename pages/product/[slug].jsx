@@ -152,7 +152,10 @@ const ProductDetails = ({ products, product }) => {
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         const newQuantity = parseInt(e.target.value, 10);
-                        if (!isNaN(newQuantity) && newQuantity > 0) {
+
+                        if (selectedVariantName == "Select an option:") {
+                          toast.error("Please select an option.");
+                        } else if (!isNaN(newQuantity) && newQuantity > 0) {
                           onAdd(product, newQuantity, selectedVariantName);
                           setShowCart(true);
                         } else {
@@ -173,11 +176,14 @@ const ProductDetails = ({ products, product }) => {
                   let cleanedQuantity = parseInt(qty, 10);
                   if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
 
-
-                  onAdd(product, qty, selectedVariantName);  // Use the product from the product listing and the qty from the state
+                  if (selectedVariantName == "Select an option:") {
+                    toast.error("Please select an option.");
+                  } else {
+                    onAdd(product, qty, selectedVariantName);  // Use the product from the product listing and the qty from the state
+                    setShowCart(true);
+                  }
                   setTimeout(() => {
                     setButtonClicked(false);
-                    setShowCart(true);
                   }, 150);
                 }}
               >
