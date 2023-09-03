@@ -18,9 +18,15 @@ import { useStateContext } from '../../context/StateContext';
 
 import toast from 'react-hot-toast';
 
+
+// Function to convert newline characters to <br> tags
+function newlineToBreak(input) {
+  return input.replace(/\n/g, '<br/>');
+}
+
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
-  const { nameLong, description, price, readMore, reviewStars, numOfReviews } = product;
+  const { nameLong, description, price, readMore, reviewStars, numOfReviews, productDetails } = product;
 
   const [productImages, setProductImages] = useState(product.images);
 
@@ -71,17 +77,9 @@ const ProductDetails = ({ products, product }) => {
             <div className="price"><strong>USD ${price}</strong></div>
             <div>
               <h5>Product Details:</h5>
-              <p>
-                <div>
-                  Materials: plastic, acrylic, paint, zinc
-                </div>
-                <div>
-                  Weight: 5g
-                </div>
-                <div>
-                  Dimensions: 4.2 x 2 x 2 cm
-                </div>
-              </p>
+              <div
+                dangerouslySetInnerHTML={{ __html: newlineToBreak(productDetails) }}
+              />
             </div>
 
             <div>
@@ -200,7 +198,7 @@ const ProductDetails = ({ products, product }) => {
 
       <MayLike products={products} />
 
-    </div>
+    </div >
   )
 }
 

@@ -110,15 +110,8 @@ export default {
         {
             name: 'productCategory',
             title: 'Product Category',
-            type: 'string',
-            options: {
-                list: [
-                    { title: 'Earrings', value: 'earrings' },
-                    { title: 'Resin', value: 'resin' },
-                    { title: '3D Printed', value: '3d-printed' },
-                    { title: 'Clay', value: 'clay' }
-                ],
-            },
+            type: 'reference',
+            to: [{ type: 'productCategories' }],
             validation: Rule => Rule.required().error('Product Category is required.')
         },
         {

@@ -11,3 +11,4 @@ export { default as BestSellers} from './BestSellers';
 export { default as MayLike} from './MayLike';
 export { default as ReadMore} from './ReadMore';
 export { default as ProductImages} from './ProductImages';
+export { default as CategoryPreview} from './CategoryPreview';
