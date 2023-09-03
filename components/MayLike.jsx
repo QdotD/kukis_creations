@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '../components';
 
-const MayLike = ({ products }) => {
+const MayLike = ({ products, currentProductId }) => {
     return (
         <div className='products-main-container maylike-container'>
             <div className="products-heading">
@@ -11,9 +11,11 @@ const MayLike = ({ products }) => {
             </div>
 
             <div className="products-container">
-                {products?.filter(product => product.isBestSeller).slice(0, 4).map((product) =>
-                    <Product key={product._id} product={product} />
-                )}
+                {products
+                    ?.filter(product => product.isBestSeller && product._id !== currentProductId)
+                    .slice(0, 4)
+                    .map(product => <Product key={product._id} product={product} />
+                    )}
             </div>
         </div>
     )
