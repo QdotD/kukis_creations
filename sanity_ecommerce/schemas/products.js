@@ -89,12 +89,17 @@ export default {
             title: 'Price',
             type: 'number',
             validation: Rule => Rule.required().error('Price is required.')
-        },
-        {
-            name: 'details',
-            title: 'Details',
+        }, {
+            name: 'productDetails',
+            title: 'Product Details',
             type: 'text',
             validation: Rule => Rule.required().error('Product Details are required.')
+        },
+        {
+            name: 'description',
+            title: 'Description',
+            type: 'text',
+            validation: Rule => Rule.required().error('Description is required.')
         },
         {
             name: 'readMore',

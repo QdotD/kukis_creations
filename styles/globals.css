@@ -1024,6 +1024,8 @@ html::-webkit-scrollbar-thumb {
 
 .product-detail-heading {
   display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .product-detail-heading h1 {
