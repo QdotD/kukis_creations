@@ -2,6 +2,8 @@
 // imports react to the project
 import React from 'react'
 
+import Script from 'next/script'
+
 // imports sanityClient to the project
 import { client } from '../lib/client';
 
@@ -10,9 +12,19 @@ import { Carousel, BestSellers, Review } from '../components';
 
 const Home = ({ products, carousel, reviews }) => (
   <div>
+    {/* Google Analytics gtag */}
+    <Script src="https://www.googletagmanager.com/gtag/js?id=G-BW4F0N355Z" />
+    <Script id="google-analytics">
+      {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BW4F0N355Z');
+        `}
+    </Script>
     {/* <HeroBanner heroBanner={ bannerData.length && bannerData[0] }/> */}
     <Carousel carousel={carousel} />
-    <BestSellers products={products}/>
+    <BestSellers products={products} />
     <Review reviews={reviews} />
   </div>
 );
