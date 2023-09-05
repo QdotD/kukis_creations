@@ -15,15 +15,13 @@ export default async function handler(req, res) {
         payment_method_types: ['card'],
         billing_address_collection: 'auto',
         shipping_options: [
-          { shipping_rate: 'shr_1NmuJhGiRNSwDDoZwl2yDEW0' }
+          { shipping_rate: 'shr_1NmupjGiRNSwDDoZSS3ViHpl' }
         ],
         shipping_address_collection: {
           allowed_countries: ['US'],
         },
         line_items: req.body.map((item) => {
           const img = item.images[0].asset._ref;
-          const newImage = img.replace('image-', 'https://cdn.sanity.io/images/izde7eb5/production/').replace('-webp', '.webp');
-
 
           if (item.variants) {
             return {
@@ -31,7 +29,7 @@ export default async function handler(req, res) {
                 currency: 'usd',
                 product_data: {
                   name: item.nameShort + ' - ' + item.selectedVariantName,
-                  images: [newImage],
+                  images: [img],
                 },
                 unit_amount: Math.round(item.price * 100),
               },
@@ -47,7 +45,7 @@ export default async function handler(req, res) {
                 currency: 'usd',
                 product_data: {
                   name: item.nameShort,
-                  images: [newImage],
+                  images: [img],
                 },
                 unit_amount: Math.round(item.price * 100),
               },
