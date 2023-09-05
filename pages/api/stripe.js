@@ -22,6 +22,7 @@ export default async function handler(req, res) {
         },
         line_items: req.body.map((item) => {
           const img = item.images[0].asset._ref;
+          console.log(img)
 
           if (item.variants) {
             return {
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
                 currency: 'usd',
                 product_data: {
                   name: item.nameShort + ' - ' + item.selectedVariantName,
-                  images: [img],
+                  // images: [img],
                 },
                 unit_amount: Math.round(item.price * 100),
               },
@@ -45,7 +46,7 @@ export default async function handler(req, res) {
                 currency: 'usd',
                 product_data: {
                   name: item.nameShort,
-                  images: [img],
+                  // images: [img],
                 },
                 unit_amount: Math.round(item.price * 100),
               },
