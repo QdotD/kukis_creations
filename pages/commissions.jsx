@@ -22,17 +22,19 @@ const CommissionsPage = () => {
     return (
         <div className="commissions-container">
             <div className="commissions-intro">
-                <h3> Hello and welcome to Kuki's Creations Commissions! </h3>
+                <h3> Hello and welcome to Kuki&apos;s Creations Commissions! </h3>
+
                 <br />
-                <p> Whether you have a specific idea in mind or you're looking for a one-of-a-kind piece of art, you're
+                <p> Whether you have a specific idea in mind or you&apos;re looking for a one-of-a-kind piece of art, you&apos;re
                     in the right place.  commission process is designed to make your creative dreams a reality.
                     <br /><br />
-                    Please fill out the form below with as much detail as possible, and we'll get back to you promptly to discuss
-                    your project further. Your input is essential in helping us understand your vision, so don't hesitate to provide
+                    Please fill out the form below with as much detail as possible, and we&apos;ll get back to you promptly to discuss
+                    your project further. Your input is essential in helping us understand your vision, so don&apos;t hesitate to provide
                     any references, preferences, or specific requirements you may have.
                     <br /><br />
-                    Thank you for considering Kuki's Creations for your custom art needs. We look forward to collaborating with you
+                    Thank you for considering Kuki&apos;s Creations for your custom art needs. We look forward to collaborating with you
                     and turning your imagination into a masterpiece!
+
                 </p>
             </div>
 
