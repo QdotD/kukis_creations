@@ -7,7 +7,7 @@ const ProductsPageItem = ({ products }) => {
     let categorizedProducts = {};
 
     for (let product of products) {
-        const categoryName = product.productCategory.title;
+        const categoryName = product.productCategory?.title;
         if (!categorizedProducts[categoryName]) {
             categorizedProducts[categoryName] = [];
         }
