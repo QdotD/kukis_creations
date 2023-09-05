@@ -3,6 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
+  images: {
+    domains: ['cdn.sanity.io'],  // Add the domains from which you'll be loading images.
+    loader: 'default',
+  },
+
   async redirects() {
     return [
       {

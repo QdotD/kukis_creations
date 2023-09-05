@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 //component that fixes hydration/SSR issue -- "Warning: Prop `style` did not match..."
@@ -92,56 +94,70 @@ const Cart = () => {
 
         <div className="product-container">
           {cartItems.length >= 1 && cartItems.map((item, index) => (
-            <div className="product cart-product" key={item._id}>
-              <img src={urlFor(item?.images[0])} className="cart-product-image" />
-              <div className="item-desc">
-                <div className="flex top">
-                  {item.selectedVariantName ? <h5>{item.nameShort} - {item.selectedVariantName}</h5> : <h5>{item.nameShort}</h5>}
+            <div className="product" key={item._id}>
+              <div className='cart-product-details'>
+                <div className='cart-product-image-container'>
+                  <Image
+                    src={urlFor(item?.images[0]).url()}
+                    alt={item.nameShort || 'Product Image'}
+                    className="cart-product-image"
+                    width={200}
+                    height={200}
+                  // layout="fill"
+                  // objectFit="cover"
+                  />
                 </div>
-                <div className="flex bottom">
-                  <div className="quantity">
-                    <div className="quantity-desc cart-quantity-btn">
-                      <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item.uniqueId, item)}>
-                        <NoSsr>
-                          <TiDeleteOutline />
-                        </NoSsr>
-                      </button>
-                      <input
-                        // ref={inputRef}
-                        type="number"
-                        className="input"
-                        value={localQuantities[item._id] !== undefined ? localQuantities[item._id] : item.quantity}
-                        onChange={(e) => {
-                          const inputValue = e.target.value;
-                          let newQuantity;
-
-                          if (inputValue === '') {
-                            newQuantity = ''; // Allow empty string
-                          } else {
-                            newQuantity = parseInt(inputValue, 10) || 1; // If NaN, default to 1
-                          }
-
-                          setLocalQuantities(prevState => ({
-                            ...prevState,
-                            [item._id]: newQuantity
-                          }));
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            onAdd(item, localQuantities[item._id], item.selectedVariantName, true);
-                          }
-                        }}
-                        min="1"
-                      />
-                      <button className="plus" onClick={() => { onAdd(item, localQuantities[item._id], item.selectedVariantName); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
-                    </div>
+                <div className="item-desc">
+                  <div className="flex top">
+                    {item.selectedVariantName ? <h5>{item.nameShort} - {item.selectedVariantName}</h5> : <h5>{item.nameShort}</h5>}
                   </div>
-                  <h4>
-                    ${calculateTotal(item.price, item.quantity).toFixed(2)}
-                  </h4>
+                  <div className="flex bottom">
+                    <div className="quantity">
+                      <div className="quantity-desc cart-quantity-btn">
+                        <button title="Click to remove item" type="button" className="remove-item" onClick={() => onRemove(item.uniqueId, item)}>
+                          <NoSsr>
+                            <TiDeleteOutline />
+                          </NoSsr>
+                        </button>
+                        <input
+                          // ref={inputRef}
+                          type="number"
+                          className="input"
+                          value={localQuantities[item._id] !== undefined ? localQuantities[item._id] : item.quantity}
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+                            let newQuantity;
 
+                            if (inputValue === '') {
+                              newQuantity = ''; // Allow empty string
+                            } else {
+                              newQuantity = parseInt(inputValue, 10) || 1; // If NaN, default to 1
+                            }
+
+                            setLocalQuantities(prevState => ({
+                              ...prevState,
+                              [item._id]: newQuantity
+                            }));
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              onAdd(item, localQuantities[item._id], item.selectedVariantName, true);
+                            }
+                          }}
+                          min="1"
+                        />
+                        <button className="plus" onClick={() => { onAdd(item, localQuantities[item._id], item.selectedVariantName); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                      </div>
+                    </div>
+                    <h4>
+                      ${calculateTotal(item.price, item.quantity).toFixed(2)}
+                    </h4>
+
+                  </div>
                 </div>
               </div>
+
+
             </div>
           ))}
         </div>

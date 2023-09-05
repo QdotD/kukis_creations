@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { urlFor } from '../lib/client';
+import Image from 'next/image';
 
 const Carousel = ({ carousel }) => {
 
@@ -19,6 +20,9 @@ const Carousel = ({ carousel }) => {
 
   };
 
+  // console.log(carousel)
+  // console.log(carousel[0].image)
+
   return (
     <div className='carousel-banner'>
       <Slider {...settings}>
@@ -26,11 +30,23 @@ const Carousel = ({ carousel }) => {
           <source src="/jettVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video> */}
-        {carousel.map((item, index) => (
-          <a href={item.url} key={index}>
-            <img src={urlFor(item.image)} alt={item.altText} className="carousel-img" />
-          </a>
-        ))}
+        
+        {carousel.map((item, index) => {
+          return (
+            <a className="carousel-a" href={item.url} key={index}>
+              <Image
+                src={urlFor(item.image).url()}
+                alt={item.altText}
+                layout="fill"
+                objectFit="cover"
+                className="carousel-img"
+                priority={index === 0} // Only set priority for the first image, adjust if necessary
+              />
+            </a>
+          );
+        })}
+
+
       </Slider>
       {/* <div className="carousel-shop-now-button"> SHOP NOW </div> */}
 
