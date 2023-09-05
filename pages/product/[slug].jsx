@@ -68,128 +68,140 @@
           <div className='product-detail-heading'>
             <h1>{nameLong}</h1>
           </div>
+
           <div className='product-detail-subcontainer'>
 
             <ProductImages product={product} productImages={productImages} index={index} setIndex={setIndex} />
 
-            <div className='top-details-desc'>
+            <div className='subcontainer-right'>
 
-              <div className="price"><strong>USD ${price}</strong></div>
-              <div>
-                <h5>Product Details:</h5>
-                <div
-                  dangerouslySetInnerHTML={{ __html: newlineToBreak(productDetails) }}
-                />
-              </div>
-
-              <div>
-                <h5>Description: </h5>
-                <p>{description}</p>
-              </div>
-
-              <div>
-                <h5>Shipping:</h5>
-                <p>
-                  This item ships in 3-5 business days.
-                </p>
-              </div>
-            </div>
-
-
-            <div className='bottom-details-desc'>
-              <div className='reviews-and-variants'>
-
-                {reviewStars && numOfReviews ?
-                  <div className="reviews">
-                    <div>
-                      <NoSsr>
-                        {[...Array(5)].map((_, index) =>
-                          index < reviewStars ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
-                        )}
-                      </NoSsr>
-                    </div>
-                    <p>({numOfReviews})</p>
-                  </div>
-                  : null}
-
-                {product.variants && product.variants.length > 0 && (
-                  <div className='variants'>
-                    <h5>{product.variantTitle}</h5>
-                    <div className="dropdown">
-                      {/* Trigger for the dropdown */}
-                      <button className="dropdown-toggle">{selectedVariantName}</button>
-
-                      {/* Dropdown content */}
-                      <div className="dropdown-content">
-                        {/* Dropdown items */}
-                        <a onClick={() => updateDropdown("default")}>
-                          Select an option:
-                        </a>
-                        {product.variants.map((variant, index) => (
-                          <a key={index} onClick={() => updateDropdown(variant)}>
-                            {variant.variantName}
-                          </a>
-                        ))}
+              <div className='price-and-reviews'>
+                <div className="price"><strong>USD ${price}</strong></div>
+                
+                <div className='reviews'>
+                  {reviewStars && numOfReviews ?
+                    <div className="reviews">
+                      <div>
+                        <NoSsr>
+                          {[...Array(5)].map((_, index) =>
+                            index < reviewStars ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
+                          )}
+                        </NoSsr>
                       </div>
+                      <p>({numOfReviews})</p>
                     </div>
-                  </div>
-                )}
-
+                      : null}      
+                </div>
               </div>
 
-              <div className='buy-right'>
-                <div className="quantity">
-                  <div className="quantity-desc">
-                    <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
-
-                    <input
-                      type="number"
-                      className='input'
-                      value={qty}
-                      onChange={(e) => setQty(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          const newQuantity = parseInt(e.target.value, 10);
-
-                          if (selectedVariantName == "Select an option:") {
-                            toast.error("Please select an option.");
-                          } else if (!isNaN(newQuantity) && newQuantity > 0) {
-                            onAdd(product, newQuantity, selectedVariantName);
-                            setShowCart(true);
-                          } else {
-                            toast.error("Please enter a valid quantity.");
-                          }
-                        }
-                      }}
+              {/* this div has both bottom right and left sections */}
+              <div className='bottom-details-desc'>
+                
+                {/* this div has the description section on the left */}
+                <div className='details-desc'>
+                  <div>
+                    <h5>Product Details:</h5>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: newlineToBreak(productDetails) }}
                     />
+                  </div>
 
-                    <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                  <div>
+                    <h5>Description: </h5>
+                    <p>{description}</p>
+                  </div>
+
+                  <div>
+                    <h5>Shipping:</h5>
+                    <p>
+                      This item ships in 3-5 business days.
+                    </p>
                   </div>
                 </div>
 
-                <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
-                  onClick={() => {
-                    setButtonClicked(true);
+                {/* this div has the variants and the buy buttons section on the right */}
+                <div className='variants-and-buy'>
 
-                    let cleanedQuantity = parseInt(qty, 10);
-                    if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+                  {product.variants && product.variants.length > 0 && (
+                    <div className='variants'>
+                      <h5>{product.variantTitle}</h5>
+                      <div className="dropdown">
+                        {/* Trigger for the dropdown */}
+                        <button className="dropdown-toggle">{selectedVariantName}</button>
 
-                    if (selectedVariantName == "Select an option:") {
-                      toast.error("Please select an option.");
-                    } else {
-                      onAdd(product, qty, selectedVariantName);
-                      setShowCart(true);
-                    }
-                    setTimeout(() => {
-                      setButtonClicked(false);
-                    }, 150);
-                  }}
-                >
-                  Add to Cart
-                </button>
+                        {/* Dropdown content */}
+                        <div className="dropdown-content">
+                          {/* Dropdown items */}
+                          <a onClick={() => updateDropdown("default")}>
+                            Select an option:
+                          </a>
+                          {product.variants.map((variant, index) => (
+                            <a key={index} onClick={() => updateDropdown(variant)}>
+                              {variant.variantName}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                
+                  <div className='buy-right'>
+                    <div className="quantity">
+                      <div className="quantity-desc">
+                        <button className="minus" onClick={decQty}><NoSsr><AiOutlineMinus /></NoSsr></button>
+
+                        <input
+                          type="number"
+                          className='input'
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const newQuantity = parseInt(e.target.value, 10);
+
+                              if (selectedVariantName == "Select an option:") {
+                                toast.error("Please select an option.");
+                              } else if (!isNaN(newQuantity) && newQuantity > 0) {
+                                onAdd(product, newQuantity, selectedVariantName);
+                                setShowCart(true);
+                              } else {
+                                toast.error("Please enter a valid quantity.");
+                              }
+                            }
+                          }}
+                        />
+
+                        <button className="plus" onClick={incQty}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                      </div>
+                    </div>
+
+                    <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
+                      onClick={() => {
+                        setButtonClicked(true);
+
+                        let cleanedQuantity = parseInt(qty, 10);
+                        if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+
+                        if (selectedVariantName == "Select an option:") {
+                          toast.error("Please select an option.");
+                        } else {
+                          onAdd(product, qty, selectedVariantName);
+                          setShowCart(true);
+                        }
+                        setTimeout(() => {
+                          setButtonClicked(false);
+                        }, 150);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
 
               </div>
+              
             </div>
+                
           </div>
 
           {readMore ? <ReadMore readMore={readMore} /> : null}
