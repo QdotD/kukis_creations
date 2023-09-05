@@ -959,6 +959,7 @@ html::-webkit-scrollbar-thumb {
   display: flex;
   gap: 30px;
   flex-direction: row;
+  padding-bottom: 5vh;
 }
 
 .subcontainer-right {
@@ -1013,8 +1014,7 @@ html::-webkit-scrollbar-thumb {
   justify-content: space-between;
   width: 100%;
   gap: 30px;
-  height: 80%;
-  padding: 5vh 0;
+  height: calc(90% - 5vh);
 }
 
 
@@ -1023,6 +1023,7 @@ html::-webkit-scrollbar-thumb {
   flex-direction: column;
   max-width: 300px;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 /* CSS for the dropdown trigger button */
@@ -1436,7 +1437,7 @@ input[type="number"] {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #FFFFFF;
-  height: 65vh;
+  /* height: 65vh; */
   box-shadow: 0px 0px 5px 2px #00000025;
 }
 
@@ -1541,7 +1542,7 @@ input[type="number"] {
 
 
   .image-container {
-    margin-top: 20px;
+    /* margin-top: 20px; */
   }
 
   .navbar-container {
@@ -1635,11 +1636,11 @@ input[type="number"] {
   .flex h5 {
     font-size: 1.25rem;
   }
-  
+
   .flex h4 {
     font-size: 1.25rem;
   }
-  
+
   .total h3 {
     font-size: 1.25rem;
   }
