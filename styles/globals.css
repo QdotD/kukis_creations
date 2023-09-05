@@ -1643,6 +1643,10 @@ input[type="number"] {
   .total h3 {
     font-size: 1.25rem;
   }
+
+  .small-images-container {
+    width: 100%;
+  }
 }
 
 @media (min-width: 1400px) {

@@ -11,15 +11,9 @@ const ProductImages = ({ productImages, index, setIndex }) => {
         imageEl.classList.add('fade-out');
 
         setTimeout(() => {
-            // Increase your image index or however you change your image
-            setIndex((index + 1) % productImages.length);
-
-            // Refresh image source
-            imageEl.src = urlFor(productImages && productImages[index]);
-
-            // Remove fade-out class after image source has been updated
+            setIndex(prevIndex => (prevIndex + 1) % productImages.length);
             imageEl.classList.remove('fade-out');
-        }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
+        }, 100);
     };
 
     const handlePrev = () => {
@@ -27,16 +21,11 @@ const ProductImages = ({ productImages, index, setIndex }) => {
         imageEl.classList.add('fade-out');
 
         setTimeout(() => {
-            // Decrease your image index or however you change your image
-            setIndex((index - 1 + productImages.length) % productImages.length);
-
-            // Refresh image source
-            imageEl.src = urlFor(productImages && productImages[index]);
-
-            // Remove fade-out class after image source has been updated
+            setIndex(prevIndex => (prevIndex - 1 + productImages.length) % productImages.length);
             imageEl.classList.remove('fade-out');
-        }, 100); // This should match the transition duration defined in the CSS (0.4s = 400ms)
+        }, 100);
     };
+
 
     let startX; // Where the touch starts
     let distance; // Distance swiped
@@ -73,6 +62,7 @@ const ProductImages = ({ productImages, index, setIndex }) => {
 
                 <div className="product-image-container">
                     <img src={urlFor(productImages && productImages[index])} className="product-detail-image" />
+
 
                     {/* Text overlay */}
                     <div style={{
