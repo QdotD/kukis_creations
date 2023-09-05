@@ -1,12 +1,14 @@
 // // next.js allows us to build our entire backend server within the api folder. no need for node/express server
 
 import Stripe from 'stripe';
+import { urlFor } from '../../lib/client.js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
+  
   if (req.method === 'POST') {
-
+    
     try {
       // declare params
       const params = {
@@ -21,8 +23,7 @@ export default async function handler(req, res) {
           allowed_countries: ['US'],
         },
         line_items: req.body.map((item) => {
-          const img = item.images[0].asset._ref;
-          console.log(img)
+          const imgUrl = urlFor(item.images[0].asset._ref).url();
 
           if (item.variants) {
             return {
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
                 currency: 'usd',
                 product_data: {
                   name: item.nameShort + ' - ' + item.selectedVariantName,
-                  // images: [img],
+                  images: [imgUrl],
                 },
                 unit_amount: Math.round(item.price * 100),
               },
@@ -46,7 +47,7 @@ export default async function handler(req, res) {
                 currency: 'usd',
                 product_data: {
                   name: item.nameShort,
-                  // images: [img],
+                  images: [imgUrl],
                 },
                 unit_amount: Math.round(item.price * 100),
               },

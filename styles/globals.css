@@ -1654,10 +1654,6 @@ input[type="number"] {
     font-size: .5rem;
   }
 
-  .item-desc .flex {
-    width: 400px;
-  }
-
   .subtotal-container,
   .tax_and_shipping {
     font-size: .8rem;
