@@ -26,7 +26,7 @@ function newlineToBreak(input) {
 
 const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
-  const { nameLong, description, price, readMore, reviewStars, numOfReviews, productDetails, _id } = product;
+  const { nameShort, nameLong, description, price, readMore, reviewStars, numOfReviews, productDetails, _id } = product;
 
   const [productImages, setProductImages] = useState(product.images);
 
@@ -179,9 +179,18 @@ const ProductDetails = ({ products, product }) => {
                   <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
                     onClick={() => {
                       setButtonClicked(true);
-
+                      
                       let cleanedQuantity = parseInt(qty, 10);
                       if (isNaN(cleanedQuantity) || cleanedQuantity <= 0) cleanedQuantity = 1;
+                      
+                      // Push the event to dataLayer
+                      window.dataLayer.push({
+                        event: 'add_to_cart',
+                        product_name: nameShort,
+                        quantity: cleanedQuantity,
+                        variant: selectedVariantName
+                      });
+                      
 
                       if (selectedVariantName == "Select an option:") {
                         toast.error("Please select an option.");

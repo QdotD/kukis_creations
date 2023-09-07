@@ -1,5 +1,6 @@
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
+
 import Script from 'next/script';
 
 import { Layout } from '../components';
@@ -10,18 +11,34 @@ function MyApp({ Component, pageProps }) {
   return (
     // passes the data from <StateContext /> to every component inside it
     <StateContext>
-      {/* Google Analytics gtag */}
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-BW4F0N355Z" strategy="afterInteractive" />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-BW4F0N355Z');
-        `}
-      </Script>
-
       <Layout>
+
+        {/* Facebook Meta Pixel Code */}
+        <Script id="meta-facebook-pixel" strategy="afterInteractive">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1016634729672804');
+            fbq('track', 'PageView');
+          `}
+        </Script>
+
+        {/* Google Tag Manager Code */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://bremqgve.lusw.stape.io/bremqgve.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
+      `}
+        </Script>
         <Toaster />
         {/* "Component" is a dynamic component based on which page user is on */}
         <Component {...pageProps} />
