@@ -96,7 +96,7 @@ export const StateContext = ({ children }) => {
 
 
 
-	const onAdd = (product, quantity, selectedVariantName, updateFlag) => {
+	const onAdd = (product, quantity, selectedVariantName, updatedPrice, updateFlag) => {
 		if (!product || !product._id) {
 			console.error("Invalid product at start of onAdd:", product);
 			return;
@@ -118,6 +118,7 @@ export const StateContext = ({ children }) => {
 					if (updateFlag) {
 						return {
 							...cartProduct,
+							price: updatedPrice,
 							quantity: cleanedQuantity,
 							timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now(),
 							selectedVariantName: selectedVariantName,
@@ -126,6 +127,7 @@ export const StateContext = ({ children }) => {
 					} else {
 						return {
 							...cartProduct,
+							price: updatedPrice,
 							quantity: cartProduct.quantity + cleanedQuantity,
 							timeAddedToCart: cartProduct.timeAddedToCart ? cartProduct.timeAddedToCart : Date.now(),
 							selectedVariantName: selectedVariantName,
@@ -140,6 +142,7 @@ export const StateContext = ({ children }) => {
 			setCartItems(updatedCartItems);
 			setCartItemsToSession(updatedCartItems);
 		} else {
+			product.price = updatedPrice;
 			product.quantity = cleanedQuantity;
 			product.selectedVariantName = selectedVariantName;
 			product.uniqueId = uuidv4();

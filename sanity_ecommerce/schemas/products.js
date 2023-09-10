@@ -1,3 +1,5 @@
+import { number } from "prop-types"
+
 const productVariant = {
     name: 'productVariant',
     title: 'Product Variant',
@@ -8,6 +10,12 @@ const productVariant = {
             title: 'Variant Name',
             type: 'string',
             validation: Rule => Rule.required().error('Variant Name is required.')
+        },
+        {
+            name: 'variantPrice',
+            title: 'Variant Price',
+            type: 'number',
+            validation: Rule => Rule.required().error('Variant Price is required.')
         },
         {
             name: 'variantImages',

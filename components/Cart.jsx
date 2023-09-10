@@ -141,12 +141,12 @@ const Cart = () => {
                           }}
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                              onAdd(item, localQuantities[item._id], item.selectedVariantName, true);
+                              onAdd(item, localQuantities[item._id], item.selectedVariantName, item.price, true);
                             }
                           }}
                           min="1"
                         />
-                        <button className="plus" onClick={() => { onAdd(item, localQuantities[item._id], item.selectedVariantName); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
+                        <button className="plus" onClick={() => { onAdd(item, localQuantities[item._id], item.selectedVariantName, item.price); }}><NoSsr><AiOutlinePlus /></NoSsr></button>
                       </div>
                     </div>
                     <h4>

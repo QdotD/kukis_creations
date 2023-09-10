@@ -28,6 +28,8 @@ const ProductDetails = ({ products, product }) => {
   // destructure the values from props so you don't have to write products.blank each time
   const { nameShort, nameLong, description, price, readMore, reviewStars, numOfReviews, productDetails, _id } = product;
 
+  const [updatedPrice, setUpdatedPrice] = useState(price);
+
   const [productImages, setProductImages] = useState(product.images);
 
   const [index, setIndex] = useState(0);
@@ -40,6 +42,7 @@ const ProductDetails = ({ products, product }) => {
     if (product.variants) {
       setSelectedVariantName("Select an option:");
       // setProductImages([...product.images, ...product.variants[0].variantImages]);
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array ensures this useEffect runs only once after the initial render.
@@ -55,11 +58,13 @@ const ProductDetails = ({ products, product }) => {
       setSelectedVariantName("Select an option:");
       setProductImages([...product.images]);
       setIndex(0);
+      setUpdatedPrice(price);
     } else {
       setSelectedVariantName(variant.variantName);
       setProductImages([...product.images, ...variant.variantImages]);
       const indexValue = product.images.length;
       setIndex(indexValue);
+      setUpdatedPrice(variant.variantPrice);
     }
   }
 
@@ -77,7 +82,7 @@ const ProductDetails = ({ products, product }) => {
           <div className='subcontainer-right'>
 
             <div className='price-and-reviews'>
-              <div className="price"><strong>USD ${price}</strong></div>
+              <div className="price"><strong>USD ${updatedPrice}</strong></div>
 
               <div className='reviews'>
                 {reviewStars && numOfReviews ?
@@ -163,7 +168,7 @@ const ProductDetails = ({ products, product }) => {
                             if (selectedVariantName == "Select an option:") {
                               toast.error("Please select an option.");
                             } else if (!isNaN(newQuantity) && newQuantity > 0) {
-                              onAdd(product, newQuantity, selectedVariantName);
+                              onAdd(product, newQuantity, selectedVariantName, updatedPrice);
                               setShowCart(true);
                             } else {
                               toast.error("Please enter a valid quantity.");
@@ -176,7 +181,7 @@ const ProductDetails = ({ products, product }) => {
                     </div>
                   </div>
 
-                  <button type="button" className={`add-to-cart ${buttonClicked ? 'add-to-cart-clicked' : ''}`}
+                  <button type="button" className={`add-to-cart${buttonClicked ? 'add-to-cart-clicked' : ''}`}
                     onClick={() => {
                       setButtonClicked(true);
                       
@@ -185,7 +190,6 @@ const ProductDetails = ({ products, product }) => {
                       
                       // Push the event to dataLayer
                       window.dataLayer.push({
-                        event: 'add_to_cart',
                         product_name: nameShort,
                         quantity: cleanedQuantity,
                         variant: selectedVariantName
@@ -195,7 +199,7 @@ const ProductDetails = ({ products, product }) => {
                       if (selectedVariantName == "Select an option:") {
                         toast.error("Please select an option.");
                       } else {
-                        onAdd(product, qty, selectedVariantName);
+                        onAdd(product, qty, selectedVariantName, updatedPrice);
                         setShowCart(true);
                       }
                       setTimeout(() => {
