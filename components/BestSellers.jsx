@@ -12,7 +12,14 @@ const BestSellers = ({ products }) => {
 
             <div className="products-container">
                 {products?.filter(product => product.isBestSeller).slice(0, 4).map((product) =>
-                    <Product key={product._id} product={product} />
+                    <Product
+                        key={product._id}
+                        product={product}
+                        onClick={() => window.dataLayer.push({
+                            event: "click_best_seller",
+                            product_name: product.nameShort
+                        })}
+                    />
                 )}
             </div>
         </div>

@@ -47,7 +47,15 @@ const Navbar = () => {
           &#9776;
         </button>
 
-        <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
+
+        <button type="button" className="cart-icon" onClick={() => {
+
+          setShowCart(true);
+          window.dataLayer.push({
+            event: "open_cart"
+          });
+        }}
+        >
           <NoSsr>
             <AiOutlineShopping />
           </NoSsr>
@@ -68,7 +76,7 @@ const Navbar = () => {
           <Link href="/commissions">Commissions</Link>
         </p>
       </div>
-    </div>
+    </div >
   )
 }
 

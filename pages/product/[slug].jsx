@@ -190,6 +190,7 @@ const ProductDetails = ({ products, product }) => {
                       
                       // Push the event to dataLayer
                       window.dataLayer.push({
+                        event: "add_to_cart",
                         product_name: nameShort,
                         quantity: cleanedQuantity,
                         variant: selectedVariantName

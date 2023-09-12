@@ -168,7 +168,14 @@ const Cart = () => {
                 <span className='total-first-letter'>Y</span><span className="total">our subtotal is</span>
                 <span className="total"> ${safeToFixed(totalPrice)}</span><em className="tax_and_shipping"> (plus shipping & tax)</em>
               </div>
-              <button type="button" className='btn-container btn' onClick={handleCheckout}>
+              <button type="button" className='btn-container btn' onClick={() => {
+                handleCheckout()
+                window.dataLayer.push({
+                  event: "start_checkout",
+                  total_price: totalPrice
+                });
+              }}
+              >
                 Pay now with Stripe
               </button>
             </div>

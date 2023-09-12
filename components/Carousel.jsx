@@ -20,6 +20,13 @@ const Carousel = ({ carousel }) => {
 
   };
 
+  const handleCarouselClick = (item) => {
+    window.dataLayer.push({
+      event: "click_carousel_promotion",
+      carousel_item: item
+    });
+  }
+
   // console.log(carousel)
   // console.log(carousel[0].image)
 
@@ -30,10 +37,15 @@ const Carousel = ({ carousel }) => {
           <source src="/jettVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video> */}
-        
+
         {carousel.map((item, index) => {
           return (
-            <a className="carousel-a" href={item.url} key={index}>
+            <a
+              className="carousel-a"
+              href={item.url}
+              key={index}
+              onClick={() => handleCarouselClick(item)}
+            >
               <Image
                 src={urlFor(item.image).url()}
                 alt={item.altText}

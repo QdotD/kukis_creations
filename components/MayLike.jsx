@@ -14,7 +14,14 @@ const MayLike = ({ products, currentProductId }) => {
                 {products
                     ?.filter(product => product.isBestSeller && product._id !== currentProductId)
                     .slice(0, 4)
-                    .map(product => <Product key={product._id} product={product} />
+                    .map(product => <Product
+                        key={product._id}
+                        product={product}
+                        onClick={() => window.dataLayer.push({
+                            event: "click_may_like",
+                            product_name: product.nameShort
+                        })}
+                    />
                     )}
             </div>
         </div>

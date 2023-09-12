@@ -4,13 +4,18 @@ import { urlFor } from '../lib/client';
 //import global state and functions
 import { useStateContext } from '../context/StateContext';
 
-const Product = ({ product: { images, nameShort, slug, price } }) => {
+const Product = ({ product: { images, nameShort, slug, price }, onClick }) => {
   const { setQty } = useStateContext();
 
   const handleClick = () => {
     setQty(1);
     // Navigate to the product page with a full page reload.
     window.location.href = `/product/${slug.current}`;
+
+    // Call the onClick prop if it's provided:
+    if (typeof onClick === "function") {
+      onClick();
+    }
   };
 
   return (
