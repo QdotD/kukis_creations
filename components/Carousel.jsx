@@ -23,7 +23,7 @@ const Carousel = ({ carousel }) => {
   const handleCarouselClick = (item) => {
     window.dataLayer.push({
       event: "click_carousel_promotion",
-      carousel_item: item
+      carousel_item_url: item.url
     });
   }
 
