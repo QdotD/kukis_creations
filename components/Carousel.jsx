@@ -20,11 +20,17 @@ const Carousel = ({ carousel }) => {
 
   };
 
-  const handleCarouselClick = (item) => {
+  const handleCarouselClick = (e, item) => {
+    e.preventDefault(); // Stop the link from navigating immediately
+
     window.dataLayer.push({
       event: "click_carousel_promotion",
       carousel_item_url: item.url
     });
+
+    setTimeout(() => {
+      window.location.href = item.url;
+    }, 200);
   }
 
   // console.log(carousel)
