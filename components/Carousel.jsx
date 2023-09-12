@@ -48,7 +48,6 @@ const Carousel = ({ carousel }) => {
           return (
             <a
               className="carousel-a"
-              href={item.url}
               key={index}
               onClick={() => handleCarouselClick(item)}
             >
