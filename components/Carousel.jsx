@@ -20,9 +20,7 @@ const Carousel = ({ carousel }) => {
 
   };
 
-  const handleCarouselClick = (e, item) => {
-    e.preventDefault(); // Stop the link from navigating immediately
-
+  const handleCarouselClick = (item) => {
     window.dataLayer.push({
       event: "click_carousel_promotion",
       carousel_item_url: item.url
@@ -48,6 +46,7 @@ const Carousel = ({ carousel }) => {
           return (
             <a
               className="carousel-a"
+              href={item.url}
               key={index}
               onClick={() => handleCarouselClick(item)}
             >
