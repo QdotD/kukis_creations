@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import Script from 'next/script';
@@ -8,6 +8,19 @@ import '../styles/globals.css';
 import { StateContext } from '../context/StateContext';
 
 function MyApp({ Component, pageProps }) {
+  const [nonce, setNonce] = useState(null);
+
+  useEffect(() => {
+    fetch('https://us-central1-winged-quanta-385223.cloudfunctions.net/generate-nonce')
+      .then(response => response.json())
+      .then(data => {
+        setNonce(data.nonce);
+      })
+      .catch(error => {
+        console.error('Error fetching nonce:', error);
+      });
+  }, []);
+
   return (
     // passes the data from <StateContext /> to every component inside it
     <StateContext>
@@ -30,15 +43,17 @@ function MyApp({ Component, pageProps }) {
         </Script>
 
         {/* Google Tag Manager Code */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
+        {nonce && (
+        <Script id="google-tag-manager" strategy="afterInteractive" nonce={nonce}>
           {`
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
-      `}
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
+          `}
         </Script>
+      )}
         <Toaster />
         {/* "Component" is a dynamic component based on which page user is on */}
         <Component {...pageProps} />
