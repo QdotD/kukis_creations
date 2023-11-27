@@ -16,7 +16,9 @@ const ProductsPageItem = ({ products }) => {
 
     return (
         <div>
-            {Object.entries(categorizedProducts).map(([categoryName, categoryProducts]) => (
+            {Object.entries(categorizedProducts)
+            .sort((a, b) => a[0].localeCompare(b[0])) // Sorting the categories alphabetically
+            .map(([categoryName, categoryProducts]) => (
                 <div key={categoryName}>
                     <div className="product-detail-heading products-page-heading">
                         <h1>{categoryName}</h1>
