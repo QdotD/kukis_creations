@@ -1483,6 +1483,10 @@ input[type="number"] {
   font-family: Arial, sans-serif;
 }
 
+.submitted-message {
+  height: 50px;
+}
+
 
 /* Media Queries */
 @media (max-width: 800px) {

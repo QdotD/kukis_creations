@@ -13,6 +13,15 @@ const ContactPage = () => {
                 onReady={(form) => console.log('Form ready!')}
                 loading={<div>Loading...</div>}
             />
+            <br />
+            <HubspotForm
+                region='na1'
+                portalId='45258227'
+                formId='2afc4515-fd30-4683-ba03-8d3908bfbfe8'
+                onSubmit={() => console.log('Submit!')}
+                onReady={(form) => console.log('Form ready!')}
+                loading={<div>Loading...</div>}
+            />
         </div>
     );
 };
