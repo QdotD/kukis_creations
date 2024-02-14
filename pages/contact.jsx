@@ -1,24 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import HubspotForm from 'react-hubspot-form';
 
-const contactPage = () => {
-    const initialState = {
-        name: "",
-        email: "",
-        description: "",
-        attachment: null,
-    };
-
-    const [formData, setFormData] = useState(initialState);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleAttachment = (e) => {
-        setFormData((prev) => ({ ...prev, attachment: e.target.files[0] }));
-    };
+const ContactPage = () => {
 
     return (
         <div className="contact-container">
@@ -34,4 +17,4 @@ const contactPage = () => {
     );
 };
 
-export default contactPage;
+export default ContactPage;
