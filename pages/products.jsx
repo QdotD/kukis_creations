@@ -8,6 +8,8 @@ const ProductsPageItem = ({ products }) => {
 
     for (let product of products) {
         const categoryName = product.productCategory?.title;
+        // Skip products with undefined category names
+        if (categoryName === undefined) continue;
         if (!categorizedProducts[categoryName]) {
             categorizedProducts[categoryName] = [];
         }
@@ -18,19 +20,26 @@ const ProductsPageItem = ({ products }) => {
         <div>
             {Object.entries(categorizedProducts)
             .sort((a, b) => a[0].localeCompare(b[0])) // Sorting the categories alphabetically
-            .map(([categoryName, categoryProducts]) => (
-                <div key={categoryName}>
-                    <div className="product-detail-heading products-page-heading">
-                        <h1>{categoryName}</h1>
-                        <div className="horizontal-bar"></div>
+            .map(([categoryName, categoryProducts]) => {
+                // Check if the categoryProducts is undefined or empty, then skip rendering this category
+                if (categoryProducts === undefined || categoryProducts.length === 0) {
+                    return null;
+                }
+
+                return (
+                    <div key={categoryName}>
+                        <div className="product-detail-heading products-page-heading">
+                            <h1>{categoryName}</h1>
+                            <div className="horizontal-bar"></div>
+                        </div>
+                        <div className="products-page-container">
+                            {categoryProducts.map(product => (
+                                <ProductPageItem key={product._id} product={product} />
+                            ))}
+                        </div>
                     </div>
-                    <div className="products-page-container">
-                        {categoryProducts.map(product => (
-                            <ProductPageItem key={product._id} product={product} />
-                        ))}
-                    </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     )
 }
