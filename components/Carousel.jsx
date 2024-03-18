@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -7,69 +6,71 @@ import { urlFor } from '../lib/client';
 import Image from 'next/image';
 
 const Carousel = ({ carousel }) => {
+  const [filteredCarousel, setFilteredCarousel] = useState([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      const displayOptionFilter = screenWidth < 800 ? 'mobile' : 'desktop';
+      const filteredItems = carousel.filter(item => item.displayOption === displayOptionFilter);
+      setFilteredCarousel(filteredItems);
+    };
+
+    // call handleResize immediately to set the initial state
+    handleResize();
+
+    // add event listener
+    window.addEventListener('resize', handleResize);
+
+    // cleanup function to remove event listener
+    return () => window.removeEventListener('resize', handleResize);
+  }, [carousel]);
 
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000, // Adjust the speed of slide transition
-    autoplay: true, // Enable autoplay for automatic sliding
-    autoplaySpeed: 5000, // Adjust the time interval between slides (in milliseconds)
+    speed: 1000,
+    autoplay: true,
+    autoplaySpeed: 5000,
     arrows: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-
   };
 
   const handleCarouselClick = (item) => {
     window.dataLayer.push({
       event: "click_carousel_promotion",
-      carousel_item_url: item.url
+      carousel_item_url: item.url,
     });
 
     setTimeout(() => {
       window.location.href = item.url;
     }, 200);
-  }
-
-  // console.log(carousel)
-  // console.log(carousel[0].image)
+  };
 
   return (
     <div className='carousel-banner'>
       <Slider {...settings}>
-        {/* <video controls autoPlay muted loop className="carousel-img">
-          <source src="/jettVideo.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video> */}
-
-        {carousel.map((item, index) => {
-          return (
-            <a
-              className="carousel-a"
-              href={item.url}
-              key={index}
-              onClick={() => handleCarouselClick(item)}
-            >
-              <Image
-                src={urlFor(item.image).url()}
-                alt={item.altText}
-                layout="fill"
-                objectFit="cover"
-                className="carousel-img"
-                priority={index === 0} // Only set priority for the first image, adjust if necessary
-              />
-            </a>
-          );
-        })}
-
-
+        {filteredCarousel.map((item, index) => (
+          <a
+            className={`carousel-a ${item.displayOption}`}
+            href={item.url}
+            key={index}
+            onClick={() => handleCarouselClick(item)}
+          >
+            <Image
+              src={urlFor(item.image).url()}
+              alt={item.altText}
+              layout="fill"
+              objectFit="cover"
+              className={`carousel-img ${item.displayOption}`}
+              priority={index === 0}
+            />
+          </a>
+        ))}
       </Slider>
-      {/* <div className="carousel-shop-now-button"> SHOP NOW </div> */}
-
     </div>
-
   );
+};
 
-}
-
-export default Carousel
+export default Carousel;

@@ -31,8 +31,23 @@ export default {
             title: 'Image Title',
             type: 'string',
             validation: Rule => Rule.required().error('Image Title is required.')
+        },
+        {
+            name: 'displayOption',
+            title: 'Display Option',
+            description: 'Select the device type this content is optimized for.',
+            type: 'string',
+            options: {
+                list: [
+                    {title: 'Desktop', value: 'desktop'},
+                    {title: 'Tablet', value: 'tablet'},
+                    {title: 'Mobile', value: 'mobile'},
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+            },
+            validation: Rule => Rule.required().error('Display option is required.'),
         }
-
     ],
     preview: {
         select: {
