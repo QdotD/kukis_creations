@@ -7,8 +7,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const product = await stripe.products.retrieve('prod_PlSQQGAr2ak29z');
 
-console.log(product);
-
 export default async function handler(req, res) {
   
   if (req.method === 'POST') {
@@ -76,6 +74,8 @@ export default async function handler(req, res) {
       }
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create(params);
+
+      console.log(product);
 
       res.status(200).json(session);
     } catch (err) {
