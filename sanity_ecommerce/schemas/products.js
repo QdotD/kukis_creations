@@ -6,6 +6,13 @@ const productVariant = {
     type: 'object',
     fields: [
         {
+            name: 'stripePriceApiIdVariant',
+            title: 'Stripe Price API ID Variant',
+            type: 'string',
+            description: 'The API ID for the product price can be found in the Stripe dashboard under "Product Catalog" > Click on a product > "Pricing"',
+            validation: Rule => Rule.required().error('Stripe Price API ID Variant is required.')
+        },
+        {
             name: 'variantName',
             title: 'Variant Name',
             type: 'string',
@@ -25,7 +32,7 @@ const productVariant = {
             options: {
                 hotspot: true,
             }
-        }
+        },
     ],
     preview: {
         select: {
@@ -40,6 +47,13 @@ export default {
     title: 'Products',
     type: 'document',
     fields: [
+        {
+            name: 'stripePriceApiId',
+            title: 'Stripe Price API ID',
+            type: 'string',
+            description: 'The API ID for the product price can be found in the Stripe dashboard under "Product Catalog" > Click on a product > "Pricing"',
+            validation: Rule => Rule.required().error('Stripe Price API ID is required. Enter "n/a" if using variants')
+        },
         {
             name: 'nameShort',
             title: 'Name Short',
