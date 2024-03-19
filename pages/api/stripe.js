@@ -24,10 +24,11 @@ export default async function handler(req, res) {
         },
         line_items: req.body.map((item) => {
           const imgUrl = urlFor(item.images[0].asset._ref).url();
-          const selectedVariant = item.variants.find(variant => variant.variantName === item.selectedVariantName);
-          const stripePriceApiIdVariant = selectedVariant ? selectedVariant.stripePriceApiIdVariant : null;
 
           if (item.variants) {
+            const selectedVariant = item.variants.find(variant => variant.variantName === item.selectedVariantName);
+            const stripePriceApiIdVariant = selectedVariant ? selectedVariant.stripePriceApiIdVariant : null;
+            
             return {
               // price_data: {
               //   currency: 'usd',
