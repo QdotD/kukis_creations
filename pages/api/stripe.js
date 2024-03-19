@@ -45,6 +45,7 @@ export default async function handler(req, res) {
                 enabled: true,
                 minimum: 1,
               },
+              price: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
               quantity: item.quantity,
             }
           } else {
@@ -64,6 +65,7 @@ export default async function handler(req, res) {
                 enabled: true,
                 minimum: 1,
               },
+              price: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
               quantity: item.quantity,
             }
           }
