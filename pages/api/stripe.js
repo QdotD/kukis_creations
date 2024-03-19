@@ -75,8 +75,6 @@ export default async function handler(req, res) {
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create(params);
 
-      console.log(product);
-
       res.status(200).json(session);
     } catch (err) {
       console.log("Stripe Error:", err);
