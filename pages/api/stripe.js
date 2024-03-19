@@ -30,9 +30,11 @@ export default async function handler(req, res) {
               price_data: {
                 currency: 'usd',
                 product_data: {
-                  id: "prod_PlSQQGAr2ak29z",
                   name: item.nameShort + ' - ' + item.selectedVariantName,
                   images: [imgUrl],
+                  metadata: {
+                    productId: "prod_PlSQQGAr2ak29z"
+                  }
                 },
                 unit_amount: Math.round(item.price * 100),
               },
@@ -47,9 +49,11 @@ export default async function handler(req, res) {
               price_data: {
                 currency: 'usd',
                 product_data: {
-                  id: "prod_PlSQQGAr2ak29z",
-                  name: item.nameShort,
+                  name: item.nameShort + ' - ' + item.selectedVariantName,
                   images: [imgUrl],
+                  metadata: {
+                    productId: "prod_PlSQQGAr2ak29z"
+                  }
                 },
                 unit_amount: Math.round(item.price * 100),
               },
