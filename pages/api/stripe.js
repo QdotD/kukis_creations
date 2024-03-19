@@ -30,6 +30,7 @@ export default async function handler(req, res) {
               price_data: {
                 currency: 'usd',
                 product_data: {
+                  id: "prod_PlSQQGAr2ak29z",
                   name: item.nameShort + ' - ' + item.selectedVariantName,
                   images: [imgUrl],
                 },
@@ -46,6 +47,7 @@ export default async function handler(req, res) {
               price_data: {
                 currency: 'usd',
                 product_data: {
+                  id: "prod_PlSQQGAr2ak29z",
                   name: item.nameShort,
                   images: [imgUrl],
                 },
