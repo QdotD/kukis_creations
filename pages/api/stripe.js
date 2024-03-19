@@ -10,9 +10,6 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     
     try {
-
-      const product = await stripe.products.retrieve('prod_PlSQQGAr2ak29z');
-      console.log(product);
       // declare params
       const params = {
         submit_type: 'pay',
@@ -30,34 +27,36 @@ export default async function handler(req, res) {
 
           if (item.variants) {
             return {
-              price_data: {
-                currency: 'usd',
-                product_data: {
-                  name: item.nameShort + ' - ' + item.selectedVariantName,
-                  images: [imgUrl],
-                },
-                unit_amount: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
-              },
-              adjustable_quantity: {
-                enabled: true,
-                minimum: 1,
-              },
+              // price_data: {
+              //   currency: 'usd',
+              //   product_data: {
+              //     name: item.nameShort + ' - ' + item.selectedVariantName,
+              //     images: [imgUrl],
+              //   },
+              //   unit_amount: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
+              // },
+              // adjustable_quantity: {
+              //   enabled: true,
+              //   minimum: 1,
+              // },
+              price: item.stripePriceApiIdVariant,
               quantity: item.quantity,
             }
           } else {
             return {
-              price_data: {
-                currency: 'usd',
-                product_data: {
-                  name: item.nameShort,
-                  images: [imgUrl],
-                },
-                unit_amount: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
-              },
-              adjustable_quantity: {
-                enabled: true,
-                minimum: 1,
-              },
+              // price_data: {
+              //   currency: 'usd',
+              //   product_data: {
+              //     name: item.nameShort,
+              //     images: [imgUrl],
+              //   },
+              //   unit_amount: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
+              // },
+              // adjustable_quantity: {
+              //   enabled: true,
+              //   minimum: 1,
+              // },
+              price: item.stripePriceApiId,
               quantity: item.quantity,
             }
           }
@@ -67,6 +66,7 @@ export default async function handler(req, res) {
         success_url: `${req.headers.origin}/success`,
         cancel_url: `${req.headers.origin}/canceled`,
       }
+
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create(params);
 

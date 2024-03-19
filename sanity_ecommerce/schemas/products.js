@@ -6,17 +6,17 @@ const productVariant = {
     type: 'object',
     fields: [
         {
+            name: 'variantName',
+            title: 'Variant Name',
+            type: 'string',
+            validation: Rule => Rule.required().error('Variant Name is required.')
+        },
+        {
             name: 'stripePriceApiIdVariant',
             title: 'Stripe Price API ID Variant',
             type: 'string',
             description: 'The API ID for the product price can be found in the Stripe dashboard under "Product Catalog" > Click on a product > "Pricing"',
             validation: Rule => Rule.required().error('Stripe Price API ID Variant is required.')
-        },
-        {
-            name: 'variantName',
-            title: 'Variant Name',
-            type: 'string',
-            validation: Rule => Rule.required().error('Variant Name is required.')
         },
         {
             name: 'variantPrice',
@@ -48,13 +48,6 @@ export default {
     type: 'document',
     fields: [
         {
-            name: 'stripePriceApiId',
-            title: 'Stripe Price API ID',
-            type: 'string',
-            description: 'The API ID for the product price can be found in the Stripe dashboard under "Product Catalog" > Click on a product > "Pricing"',
-            validation: Rule => Rule.required().error('Stripe Price API ID is required. Enter "n/a" if using variants')
-        },
-        {
             name: 'nameShort',
             title: 'Name Short',
             type: 'string',
@@ -67,6 +60,13 @@ export default {
             type: 'string',
             description: 'For the product page name specifically.',
             validation: Rule => Rule.required().error('Product Name Long is required.')
+        },
+        {
+            name: 'stripePriceApiId',
+            title: 'Stripe Price API ID',
+            type: 'string',
+            description: 'The API ID for the product price can be found in the Stripe dashboard under "Product Catalog" > Click on a product > "Pricing"',
+            validation: Rule => Rule.required().error('Stripe Price API ID is required. Enter "n/a" if using variants')
         },
         {
             name: 'images',
