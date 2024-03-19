@@ -5,6 +5,10 @@ import { urlFor } from '../../lib/client.js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+const product = await stripe.products.retrieve('prod_PlSQQGAr2ak29z');
+
+console.log(product);
+
 export default async function handler(req, res) {
   
   if (req.method === 'POST') {
