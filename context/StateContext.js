@@ -175,9 +175,9 @@ export const StateContext = ({ children }) => {
 		let cartItems = getCartItemsFromSession();
 
 		// Filtering based on both _id and the selected variant name
-		console.log("Before Removal:", cartItems);
+		//console.log("Before Removal:", cartItems);
 		const newCartItems = cartItems.filter((item) => item.uniqueId !== productUniqueId);
-		console.log("After Removal:", newCartItems);
+		//console.log("After Removal:", newCartItems);
 
 		// Update cart in state and sessionStorage
 		setCartItems(newCartItems);
