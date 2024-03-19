@@ -30,17 +30,17 @@ export default async function handler(req, res) {
 
           if (item.variants) {
             return {
-              price_data: {
-                currency: 'usd',
-                product_data: {
-                  name: item.nameShort + ' - ' + item.selectedVariantName,
-                  images: [imgUrl],
-                  metadata: {
-                    productId: "prod_PlSQQGAr2ak29z"
-                  }
-                },
-                unit_amount: Math.round(item.price * 100),
-              },
+              // price_data: {
+              //   currency: 'usd',
+              //   product_data: {
+              //     name: item.nameShort + ' - ' + item.selectedVariantName,
+              //     images: [imgUrl],
+              //     metadata: {
+              //       productId: "prod_PlSQQGAr2ak29z"
+              //     }
+              //   },
+              //   unit_amount: Math.round(item.price * 100),
+              // },
               adjustable_quantity: {
                 enabled: true,
                 minimum: 1,
@@ -50,21 +50,21 @@ export default async function handler(req, res) {
             }
           } else {
             return {
-              price_data: {
-                currency: 'usd',
-                product_data: {
-                  name: item.nameShort + ' - ' + item.selectedVariantName,
-                  images: [imgUrl],
-                  metadata: {
-                    productId: "prod_PlSQQGAr2ak29z"
-                  }
-                },
-                unit_amount: Math.round(item.price * 100),
-              },
-              adjustable_quantity: {
-                enabled: true,
-                minimum: 1,
-              },
+              // price_data: {
+              //   currency: 'usd',
+              //   product_data: {
+              //     name: item.nameShort + ' - ' + item.selectedVariantName,
+              //     images: [imgUrl],
+              //     metadata: {
+              //       productId: "prod_PlSQQGAr2ak29z"
+              //     }
+              //   },
+              //   unit_amount: Math.round(item.price * 100),
+              // },
+              // adjustable_quantity: {
+              //   enabled: true,
+              //   minimum: 1,
+              // },
               price: 'price_1OvvVPGiRNSwDDoZBopO9LLm',
               quantity: item.quantity,
             }
